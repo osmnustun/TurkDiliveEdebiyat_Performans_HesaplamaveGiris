@@ -426,9 +426,8 @@ input[type=range].score-range::-moz-range-thumb {
     box-shadow: 0 3px 9px rgba(15, 23, 42, .18);
 }
 
-.quick-chips { display: flex; gap: 7px; margin-top: 9px; }
+.quick-chips { display: grid; grid-template-columns: repeat(6, 1fr); gap: 7px; margin-top: 9px; }
 .quick-chips button {
-    flex: 1 1 0;
     height: 38px;
     border-radius: 10px;
     border: 1px solid var(--line);
