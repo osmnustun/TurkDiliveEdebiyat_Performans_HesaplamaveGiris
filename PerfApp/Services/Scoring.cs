@@ -30,7 +30,9 @@ public static class Scoring
 
             var criteria = group.Criteria
                 .OrderBy(c => c.Order)
-                .Select(c => new CriterionResult(c.Id, c.Title, c.MaxPoints, score is null ? 0 : score.Value / 100.0 * c.MaxPoints))
+                .Select(c => new CriterionResult(c.Id, c.Title, c.MaxPoints,
+                    // Ölçüt puanı tam sayıya yuvarlanır (2.4 → 2, 2.5 → 3): yarım ve üstü yukarı.
+                    score is null ? 0 : Math.Round(score.Value / 100.0 * c.MaxPoints, MidpointRounding.AwayFromZero)))
                 .ToList();
 
             var earned = criteria.Sum(c => c.Earned);

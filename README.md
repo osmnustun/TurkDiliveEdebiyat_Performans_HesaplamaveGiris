@@ -77,6 +77,7 @@ Her performans bileşeni (K1, K2, Y1, Y2, B1, B2, D) bir ölçüt listesinden ol
 uygulamada 3–5 gruba indirgenir.
 
 - **Ölçüte dağıtım:** `ölçüt puanı = grup puanı / 100 × ölçütün maksimum puanı`
+  (sonuç tam sayıya yuvarlanır: yarım ve üstü yukarı — `2,4 → 2`, `2,5 → 3`)
 - **Bileşen puanı (100'lük):** `round(toplam kazanılan / bileşen maksimumu × 100)`
 
 **1. Performans (P1)** — K1, K2, Y1, Y2:
