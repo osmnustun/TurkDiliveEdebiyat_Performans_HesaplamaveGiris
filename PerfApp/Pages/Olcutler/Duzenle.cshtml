@@ -1,0 +1,144 @@
+@page
+@model PerfApp.Pages.Olcutler.DuzenleModel
+@{
+    ViewData["Title"] = "Ölçüt Düzenle";
+    ViewData["Active"] = "rubric";
+    var component = Model.Component!;
+    var total = component.Criteria.Sum(c => c.MaxPoints);
+}
+
+<div class="page-head">
+    <div class="eyebrow">@component.Grade. Sınıf · @component.Code · 1. Dönem</div>
+    <h1>@component.Name</h1>
+    <p>@component.Criteria.Count ölçüt · @component.Groups.Count grup · toplam @Ui.N(total) puan</p>
+</div>
+
+<div class="d-flex gap-2 mb-3">
+    <a asp-page="/Olcutler/Index" asp-route-grade="@component.Grade" class="btn-app-outline btn-sm-app">← Ölçüt listesi</a>
+    <form method="post" asp-page-handler="Regroup" data-confirm="Gruplar yeniden oluşturulacak ve bu bileşende girilmiş TÜM grup puanları silinecek. Devam edilsin mi?" class="ms-auto">
+        <input type="hidden" name="componentId" value="@component.Id" />
+        <button type="submit" class="btn-app-ghost btn-sm-app">Grupları yeniden oluştur</button>
+    </form>
+</div>
+
+@if (component.Groups.Count == 0)
+{
+    <div class="empty"><b>Grup yok</b>Ölçüt ekleyip "Grupları yeniden oluştur" düğmesini kullanın.</div>
+}
+
+@for (var g = 0; g < component.Groups.Count; g++)
+{
+    var group = component.Groups[g];
+    var groupMax = group.Criteria.Sum(c => c.MaxPoints);
+    var share = total > 0 ? groupMax / total * 100 : 0;
+
+    <div class="rubric-group">
+        <div class="rubric-group-head">
+            <span class="group-no">@(g + 1)</span>
+            <form method="post" asp-page-handler="RenameGroup">
+                <input type="hidden" name="groupId" value="@group.Id" />
+                <input type="hidden" name="componentId" value="@component.Id" />
+                <input name="name" value="@group.Name" class="input-app" aria-label="Grup adı" />
+                <button type="submit" class="btn-app-ghost btn-sm-app">Kaydet</button>
+            </form>
+        </div>
+        <div class="rubric-group-meta mb-2">
+            @group.Criteria.Count ölçüt · @Ui.N(groupMax) puan · ağırlık %@Ui.N(share)
+        </div>
+
+        @if (group.Criteria.Count == 0)
+        {
+            <div class="small muted">Bu grupta ölçüt yok.</div>
+        }
+
+        @foreach (var criterion in group.Criteria)
+        {
+            <details class="crit-item">
+                <summary class="crit-summary">
+                    <span class="t">@criterion.Title</span>
+                    <span class="m">@Ui.N(criterion.MaxPoints) p.</span>
+                    <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                </summary>
+                <div class="crit-edit">
+                    <form method="post" asp-page-handler="UpdateCriterion">
+                        <input type="hidden" name="id" value="@criterion.Id" />
+                        <input type="hidden" name="componentId" value="@component.Id" />
+                        <div class="mb-2">
+                            <label class="form-label-app">Ölçüt adı</label>
+                            <input name="title" value="@criterion.Title" class="input-app" required />
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label-app">Açıklama / ölçüt metni</label>
+                            <textarea name="description" class="textarea-app">@criterion.Description</textarea>
+                        </div>
+                        <div class="form-grid">
+                            <div>
+                                <label class="form-label-app">Maks. puan</label>
+                                <input name="maxPoints" type="number" min="0.5" max="200" step="0.5"
+                                       value="@UiInv.Inv(criterion.MaxPoints)" class="input-app" />
+                            </div>
+                            <div>
+                                <label class="form-label-app">Grup</label>
+                                <select name="groupId" class="select-app">
+                                    @foreach (var option in component.Groups)
+                                    {
+                                        <option value="@option.Id" selected="@(option.Id == criterion.GroupId ? "selected" : null)">@option.Name</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="crit-edit-actions">
+                            <button type="submit" class="btn-app">Kaydet</button>
+                            <button type="button" class="btn-app-ghost" onclick="this.closest('details').open=false">Kapat</button>
+                        </div>
+                    </form>
+                    <form method="post" asp-page-handler="DeleteCriterion"
+                          data-confirm="&quot;@criterion.Title&quot; ölçütü silinecek. Emin misiniz?" class="mt-2">
+                        <input type="hidden" name="id" value="@criterion.Id" />
+                        <input type="hidden" name="componentId" value="@component.Id" />
+                        <button type="submit" class="btn-app-danger btn-sm-app">Bu ölçütü sil</button>
+                    </form>
+                </div>
+            </details>
+        }
+    </div>
+}
+
+<div class="card-app mt-2">
+    <h2 style="font-size:15px;font-weight:800;margin:0 0 12px">Yeni ölçüt ekle</h2>
+    <form method="post" asp-page-handler="AddCriterion">
+        <input type="hidden" name="componentId" value="@component.Id" />
+        <div class="mb-2">
+            <label class="form-label-app">Ölçüt adı</label>
+            <input name="title" class="input-app" placeholder="Örn. Temaya uygunluk" required />
+        </div>
+        <div class="mb-2">
+            <label class="form-label-app">Açıklama (isteğe bağlı)</label>
+            <textarea name="description" class="textarea-app" placeholder="Ölçütün ayrıntılı açıklaması"></textarea>
+        </div>
+        <div class="form-grid">
+            <div>
+                <label class="form-label-app">Maks. puan</label>
+                <input name="maxPoints" type="number" min="0.5" max="200" step="0.5" value="10" class="input-app" />
+            </div>
+            <div>
+                <label class="form-label-app">Grup</label>
+                <select name="groupId" class="select-app">
+                    @if (component.Groups.Count == 0)
+                    {
+                        <option value="">Grup yok</option>
+                    }
+                    @foreach (var option in component.Groups)
+                    {
+                        <option value="@option.Id">@option.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn-app btn-block mt-3">Ölçüt ekle</button>
+    </form>
+</div>
+
+<div class="alert-app mt-3">
+    Maksimum puanları değiştirdiğinizde dağıtım ağırlıkları anında güncellenir; mevcut grup puanları korunur.
+</div>

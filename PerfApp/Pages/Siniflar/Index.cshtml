@@ -1,0 +1,63 @@
+@page
+@model PerfApp.Pages.Siniflar.IndexModel
+@{
+    ViewData["Title"] = "Sınıflar";
+    ViewData["Active"] = "students";
+}
+
+<div class="page-head">
+    <div class="eyebrow">Yönetim</div>
+    <h1>Sınıflar</h1>
+    <p>Sınıf ekleyin, adını değiştirin veya öğrenci listesine gidin.</p>
+</div>
+
+<div class="card-app">
+    <form method="post" asp-page-handler="Add" class="d-flex gap-2 align-items-end">
+        <div class="flex-grow-1">
+            <label class="form-label-app" for="newClass">Yeni sınıf</label>
+            <input id="newClass" name="name" class="input-app" placeholder="Örn. 9/D" autocomplete="off" />
+        </div>
+        <button type="submit" class="btn-app" style="min-height:48px">Ekle</button>
+    </form>
+    <div class="form-hint">Sınıf adı, notların hangi sınıf şablonuna göre hesaplanacağını belirler (9, 10 veya 11).</div>
+</div>
+
+<div class="section-title"><h2>Sınıf listesi</h2><span>@Model.Classes.Count sınıf</span></div>
+
+@if (Model.Classes.Count == 0)
+{
+    <div class="empty"><b>Henüz sınıf yok</b>Yukarıdaki alandan ilk sınıfınızı ekleyin.</div>
+}
+else
+{
+    @foreach (var cls in Model.Classes)
+    {
+        <div class="card-app">
+            <div class="d-flex align-items-center gap-3">
+                <span class="class-letter">@cls.Name</span>
+                <div class="flex-grow-1">
+                    <b style="font-size:16px">@cls.Name Sınıfı</b>
+                    <div class="small muted">@cls.Students.Count öğrenci · @cls.Grade. sınıf şablonu</div>
+                </div>
+                <a asp-page="/Ogrenciler/Index" asp-route-classId="@cls.Id" class="btn-app-ghost btn-sm-app">Öğrenciler</a>
+            </div>
+
+            <details class="mt-3">
+                <summary class="small muted" style="cursor:pointer;font-weight:700">Sınıfı düzenle</summary>
+                <div class="divider"></div>
+                <form method="post" asp-page-handler="Rename" class="d-flex gap-2 align-items-end mb-2">
+                    <input type="hidden" name="id" value="@cls.Id" />
+                    <div class="flex-grow-1">
+                        <label class="form-label-app">Sınıf adı</label>
+                        <input name="name" value="@cls.Name" class="input-app" />
+                    </div>
+                    <button type="submit" class="btn-app-outline" style="min-height:48px">Kaydet</button>
+                </form>
+                <form method="post" asp-page-handler="Delete" data-confirm="@cls.Name sınıfı ve içindeki tüm öğrenciler/puanlar silinecek. Emin misiniz?">
+                    <input type="hidden" name="id" value="@cls.Id" />
+                    <button type="submit" class="btn-app-danger btn-sm-app">Sınıfı sil</button>
+                </form>
+            </details>
+        </div>
+    }
+}

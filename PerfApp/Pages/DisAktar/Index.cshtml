@@ -1,0 +1,88 @@
+@page
+@model PerfApp.Pages.DisAktar.IndexModel
+@{
+    ViewData["Title"] = "Dışa Aktar";
+    ViewData["Active"] = "export";
+}
+
+<div class="page-head">
+    <div class="eyebrow">Rapor</div>
+    <h1>Dışa Aktar</h1>
+    <p>Puanları, verdiğiniz Excel dosyalarının düzeniyle ölçütlere dağıtılmış hâlde indirin.</p>
+</div>
+
+@if (Model.Classes.Count == 0)
+{
+    <div class="empty">
+        <b>Henüz sınıf yok</b>
+        Dışa aktarmak için önce öğrenci ekleyin.
+        <div class="mt-3"><a asp-page="/IceAktar" class="btn-app">Excel'den aktar</a></div>
+    </div>
+}
+else
+{
+    <div class="chip-row">
+        @foreach (var cls in Model.Classes)
+        {
+            <a asp-page="/DisAktar/Index" asp-route-classId="@cls.Id" asp-route-sort="@Model.Sort"
+               class="chip @(cls.Id == Model.SelectedClassId ? "active" : "")">@cls.Name</a>
+        }
+    </div>
+
+    <div class="sort-row">
+        <span class="sort-label">Öğrenci sırası:</span>
+        <div class="sort-toggle" role="group" aria-label="Öğrenci sıralaması">
+            <a asp-page="/DisAktar/Index" asp-route-classId="@Model.SelectedClassId" asp-route-sort="no"
+               class="@(Model.Sort == "no" ? "active" : "")">Okul No</a>
+            <a asp-page="/DisAktar/Index" asp-route-classId="@Model.SelectedClassId" asp-route-sort="ad"
+               class="@(Model.Sort == "ad" ? "active" : "")">Ad Soyad</a>
+        </div>
+    </div>
+
+    <div class="stat-grid mb-3">
+        <div class="stat"><b>@Model.TotalStudents</b><span>Öğrenci</span></div>
+        <div class="stat"><b>@Model.CompletedStudents</b><span>Tamamlanan</span></div>
+        <div class="stat"><b>@(Model.TotalStudents - Model.CompletedStudents)</b><span>Eksik</span></div>
+    </div>
+
+    @if (Model.CompletedStudents < Model.TotalStudents)
+    {
+        <div class="alert-app mb-3">
+            <b>Not:</b> Bazı öğrencilerin puanları henüz tamamlanmadı. Eksik öğrencilerin ilgili hücreleri boş bırakılır.
+        </div>
+    }
+
+    <div class="card-app">
+        <b style="font-size:15px">@Model.SelectedClass?.Name Sınıfı · 1. Dönem</b>
+        <p class="small muted mb-3" style="margin:6px 0 12px">
+            Çıktı, Excel'deki gibi <b>ölçüt satırları × öğrenci sütunları</b> biçiminde hazırlanır.
+            Grup puanları, her ölçütün maksimum puanı oranında dağıtılır; ayrıca bileşen puanları,
+            1. Performans ve 2. Performans Excel formülleriyle hesaplanır.
+        </p>
+
+        <div class="d-grid gap-2">
+            <a asp-page="/DisAktar/Index" asp-page-handler="Excel"
+               asp-route-classId="@Model.SelectedClassId" asp-route-sort="@Model.Sort"
+               class="btn-app btn-block">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h8"/></svg>
+                Excel indir (.xlsx)
+            </a>
+            <a asp-page="/DisAktar/Index" asp-page-handler="Pdf"
+               asp-route-classId="@Model.SelectedClassId" asp-route-sort="@Model.Sort"
+               class="btn-app-outline btn-block">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M9 15h1.5a1.5 1.5 0 0 0 0-3H9v6"/><path d="M14 18v-6h3"/></svg>
+                PDF indir (.pdf)
+            </a>
+        </div>
+    </div>
+
+    <div class="card-app mt-3">
+        <b style="font-size:14.5px">Çıktıda neler var?</b>
+        <div class="divider"></div>
+        <div class="small muted" style="line-height:1.7">
+            <div><b>Excel:</b> Her bileşen için ayrı sayfa (ölçütler ve dağıtılan puanlar), özet sayfası (bileşen + 1./2. performans) ve öğrenci listesi.</div>
+            <div class="mt-2"><b>PDF:</b> Özet tablosu ve her bileşen için ölçüt tablosu (yazdırılabilir).</div>
+            <div class="mt-2">Liste, seçili öğrenci sırasına göre hazırlanır.</div>
+        </div>
+    </div>
+}

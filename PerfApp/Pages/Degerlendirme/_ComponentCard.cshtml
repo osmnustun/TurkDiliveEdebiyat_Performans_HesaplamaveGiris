@@ -1,0 +1,22 @@
+@model PerfApp.Pages.Degerlendirme.IndexModel.ComponentVm
+@{
+    var c = Model.Component;
+    var routeStudent = Model.FirstUnscoredId;
+}
+<a asp-page="/Degerlendirme/Giris"
+   asp-route-classId="@Model.ClassId"
+   asp-route-componentId="@c.Id"
+   asp-route-studentId="@routeStudent"
+   asp-route-sort="@Model.Sort"
+   class="component-card">
+    <div class="component-top">
+        <span class="code-badge">@c.Code</span>
+        <h3>@c.Name</h3>
+        <span class="@(c.Kind == "P1" ? "badge-p1" : "badge-p2")">@(c.Kind == "P1" ? "1. PERF." : "2. PERF.")</span>
+    </div>
+    <div class="component-meta">
+        <span>@c.Groups.Count grup · @(c.Criteria.Count == 0 ? 0 : c.Criteria.Sum(x => x.MaxPoints).ToString("0.#")) puan</span>
+        <span>@Model.Scored / @Model.Total tamamlandı</span>
+    </div>
+    <div class="progress thin mt-2"><span style="width:@Model.Percent%"></span></div>
+</a>

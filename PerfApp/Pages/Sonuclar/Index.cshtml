@@ -1,0 +1,132 @@
+@page
+@model PerfApp.Pages.Sonuclar.IndexModel
+@{
+    ViewData["Title"] = "Sonuçlar";
+    ViewData["Active"] = "results";
+}
+
+<div class="page-head">
+    <div class="eyebrow">1. Dönem</div>
+    <h1>Dönem Sonu Sonuçları</h1>
+    <p>Bileşen puanları 100'lük sisteme çevrilir; dönem puanları Excel formülleriyle hesaplanır.</p>
+</div>
+
+@if (Model.Classes.Count == 0)
+{
+    <div class="empty">
+        <b>Henüz sınıf yok</b>
+        Önce öğrencileri içe aktarın.
+        <div class="mt-3"><a asp-page="/IceAktar" class="btn-app">Excel'den aktar</a></div>
+    </div>
+}
+else
+{
+    <div class="chip-row">
+        @foreach (var cls in Model.Classes)
+        {
+            <a asp-page="/Sonuclar/Index" asp-route-classId="@cls.Id" asp-route-sort="@Model.Sort"
+               class="chip @(cls.Id == Model.SelectedClassId ? "active" : "")">@cls.Name</a>
+        }
+    </div>
+
+    <div class="sort-row no-print">
+        <span class="sort-label">Öğrenci sırası:</span>
+        <div class="sort-toggle" role="group" aria-label="Öğrenci sıralaması">
+            <a asp-page="/Sonuclar/Index" asp-route-classId="@Model.SelectedClassId" asp-route-sort="no"
+               class="@(Model.Sort == "no" ? "active" : "")">Okul No</a>
+            <a asp-page="/Sonuclar/Index" asp-route-classId="@Model.SelectedClassId" asp-route-sort="ad"
+               class="@(Model.Sort == "ad" ? "active" : "")">Ad Soyad</a>
+        </div>
+    </div>
+
+    <div class="stat-grid mb-3">
+        <div class="stat"><b>@Ui.N(Model.AverageP1)</b><span>1. Performans ort.</span></div>
+        <div class="stat"><b>@Ui.N(Model.AverageP2)</b><span>2. Performans ort.</span></div>
+        <div class="stat"><b>@Model.Missing</b><span>Eksik öğrenci</span></div>
+    </div>
+
+    @if (Model.Rows.Count == 0)
+    {
+        <div class="empty"><b>Bu sınıfta öğrenci yok</b>Öğrenci ekleyerek başlayın.</div>
+    }
+    else
+    {
+        <div class="small muted mb-2">Tabloyu yatay kaydırarak tüm bileşenleri görebilirsiniz.</div>
+        <div class="table-wrap">
+            <table class="result-table">
+                <thead>
+                    <tr>
+                        <th class="name">Öğrenci</th>
+                        @foreach (var code in Model.ComponentCodes)
+                        {
+                            <th>@code</th>
+                        }
+                        <th>1. Perf.</th>
+                        <th>2. Perf.</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var row in Model.Rows)
+                    {
+                        <tr>
+                            <td class="name">
+                                @row.Student.FullName
+                                <small>@(row.Student.Number is null ? "" : "No: " + row.Student.Number)</small>
+                            </td>
+                            @foreach (var code in Model.ComponentCodes)
+                            {
+                                var value = row.Scores.TryGetValue(code, out var v) ? v : null;
+                                <td class="@(value is null ? "missing" : "")">@(value is null ? "—" : value.Value.ToString())</td>
+                            }
+                            <td class="p1">@Ui.N(row.P1)</td>
+                            <td class="p2">@Ui.N(row.P2)</td>
+                        </tr>
+                    }
+                    <tr class="total-row">
+                        <td class="name">Sınıf ortalaması</td>
+                        @foreach (var code in Model.ComponentCodes)
+                        {
+                            var values = Model.Rows
+                                .Select(r => r.Scores.TryGetValue(code, out var v) ? v : null)
+                                .Where(v => v.HasValue)
+                                .Select(v => (double)v!.Value)
+                                .ToList();
+                            <td>@(values.Count == 0 ? "—" : Ui.N(Math.Round(values.Average(), 2)))</td>
+                        }
+                        <td class="p1">@Ui.N(Model.AverageP1)</td>
+                        <td class="p2">@Ui.N(Model.AverageP2)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="legend">
+            @if (Model.SelectedClass!.Grade == 10)
+            {
+                <span>1. Performans = 4 bileşenin ortalaması</span>
+            }
+            else if (Model.SelectedClass.Grade == 9)
+            {
+                <span>1. Performans = her bileşenin %25'i (yuvarlanmış)</span>
+            }
+            else
+            {
+                <span>1. Performans = her bileşenin %25'i</span>
+            }
+            <span>2. Performans = B1×0,33 + B2×0,33 + D×0,34</span>
+        </div>
+
+        <div class="d-grid gap-2 mt-3 no-print">
+            <a asp-page="/DisAktar/Index" asp-route-classId="@Model.SelectedClassId" asp-route-sort="@Model.Sort"
+               class="btn-app btn-block">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>
+                Dışa Aktar (Excel / PDF)
+            </a>
+            <div class="d-flex gap-2">
+                <button type="button" class="btn-app-outline flex-grow-1" onclick="window.print()">Yazdır</button>
+                <a asp-page="/Sonuclar/Index" asp-page-handler="Csv" asp-route-classId="@Model.SelectedClassId" asp-route-sort="@Model.Sort"
+                   class="btn-app-ghost flex-grow-1">CSV indir</a>
+            </div>
+        </div>
+    }
+}

@@ -1,0 +1,118 @@
+@page
+@model PerfApp.Pages.IceAktar.IndexModel
+@{
+    ViewData["Title"] = "Excel'den Aktar";
+    ViewData["Active"] = "students";
+}
+
+<div class="page-head">
+    <div class="eyebrow">Öğrenci Yönetimi</div>
+    <h1>Excel'den Aktar</h1>
+    <p>Dosyayı yükleyin, sınıfı kontrol edin ve öğrencileri içe aktarın.</p>
+</div>
+
+<div class="alert-app info mb-3">
+    <b>Nasıl çalışır?</b> Dosyadaki "Öğrenci Bilgileri" sayfasından numara ve ad-soyad listesi okunur. Sınıf adı, sayfa başlıklarındaki 9/C, 10/A gibi etiketlerden otomatik bulunur. Puanlar içe aktarılmaz; yalnızca öğrenci listesi alınır.
+</div>
+
+<div class="card-app">
+    <h2 style="font-size:15px;font-weight:800;margin:0 0 10px">Dosya yükle</h2>
+    <form method="post" asp-page-handler="Preview" enctype="multipart/form-data">
+        <label class="form-label-app" for="file">Excel dosyası (.xlsx)</label>
+        <input id="file" type="file" name="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" class="input-app" style="padding:9px" required />
+        <button type="submit" class="btn-app btn-block mt-3">Dosyayı incele</button>
+    </form>
+</div>
+
+@if (Model.Preview is not null)
+{
+    <div class="card-app mt-3" style="border-color:#99d6cd">
+        <div class="d-flex justify-content-between align-items-start gap-2">
+            <div>
+                <div class="eyebrow">Önizleme</div>
+                <h2 style="font-size:17px;font-weight:800;margin:2px 0 4px">@Model.Preview.Students.Count öğrenci bulundu</h2>
+                <div class="small muted">@Model.PreviewFile · @Model.Preview.SourceSheet</div>
+            </div>
+            <a asp-page="/IceAktar" class="small muted">İptal</a>
+        </div>
+
+        <div class="divider"></div>
+
+        <form method="post" asp-page-handler="Confirm">
+            <input type="hidden" name="token" value="@Model.Token" />
+            <div class="form-grid">
+                <div>
+                    <label class="form-label-app">Sınıf adı</label>
+                    <input name="className" value="@Model.ClassName" class="input-app" placeholder="Örn. 9/C" required />
+                </div>
+                <div>
+                    <label class="form-label-app">Sınıf düzeyi</label>
+                    <select name="grade" class="select-app">
+                        @foreach (var grade in new[] { 9, 10, 11, 12 })
+                        {
+                            <option value="@grade" selected="@(Model.Grade == grade ? "selected" : null)">@grade. Sınıf</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <label class="form-label-app mt-3">Aktarma biçimi</label>
+            <div class="d-flex gap-2">
+                <label class="flex-grow-1 d-flex align-items-center gap-2 p-2" style="border:1px solid var(--line);border-radius:12px">
+                    <input type="radio" name="mode" value="replace" checked="@(Model.Mode != "add")" />
+                    <span class="small"><b>Listeyi değiştir</b><br />Mevcut öğrenciler silinir</span>
+                </label>
+                <label class="flex-grow-1 d-flex align-items-center gap-2 p-2" style="border:1px solid var(--line);border-radius:12px">
+                    <input type="radio" name="mode" value="add" checked="@(Model.Mode == "add")" />
+                    <span class="small"><b>Ekle</b><br />Yalnızca yeni isimler eklenir</span>
+                </label>
+            </div>
+
+            <div class="divider"></div>
+            <div class="form-label-app">Öğrenci listesi</div>
+            <div style="max-height:260px;overflow:auto;border:1px solid var(--line);border-radius:12px;padding:4px 12px">
+                @foreach (var student in Model.Preview.Students)
+                {
+                    <div class="student-row" style="padding:8px 0">
+                        <span class="avatar" style="width:30px;height:30px;border-radius:9px;font-size:10.5px">@Ui.Initials(student.FullName)</span>
+                        <div class="student-name">
+                            <b style="font-size:13px">@student.FullName</b>
+                            <small>@(student.Number is null ? "Numara yok" : "No: " + student.Number)</small>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <button type="submit" class="btn-app btn-block mt-3">@Model.Preview.Students.Count öğrenciyi içe aktar</button>
+        </form>
+    </div>
+}
+
+<div class="card-app mt-3">
+    <h2 style="font-size:15px;font-weight:800;margin:0 0 6px">Klasörden toplu aktar</h2>
+    <p class="small muted mb-2">Uygulamanın üst klasöründeki tüm .xlsx dosyaları taranır. Mevcut sınıflarda yalnızca eksik öğrenciler eklenir.</p>
+    <form method="post" asp-page-handler="Folder" data-confirm="Üst klasördeki tüm Excel dosyaları taranacak. Devam edilsin mi?">
+        <button type="submit" class="btn-app-outline btn-block" disabled="@(Model.FolderFileCount == 0)">
+            Klasörü tara (@Model.FolderFileCount dosya)
+        </button>
+    </form>
+</div>
+
+<div class="card-app mt-3">
+    <h2 style="font-size:15px;font-weight:800;margin:0 0 8px">Mevcut sınıflar</h2>
+    @if (Model.Classes.Count == 0)
+    {
+        <div class="small muted">Henüz sınıf yok.</div>
+    }
+    else
+    {
+        foreach (var cls in Model.Classes)
+        {
+            <a asp-page="/Ogrenciler/Index" asp-route-classId="@cls.Id" class="student-row">
+                <span class="avatar">@cls.Name</span>
+                <div class="student-name"><b>@cls.Name Sınıfı</b><small>Öğrenci listesine git</small></div>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg>
+            </a>
+        }
+    }
+</div>

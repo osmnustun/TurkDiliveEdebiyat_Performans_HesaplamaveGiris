@@ -1,0 +1,30 @@
+# ---------- .NET derleme çıktıları ----------
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+.vscode/
+.idea/
+
+# ---------- Uygulama verisi (yerel / üretilen) ----------
+# SQLite veritabanı ilk çalıştırmada otomatik oluşur, depolanmaz.
+PerfApp/App_Data/*.db
+PerfApp/App_Data/*.db-shm
+PerfApp/App_Data/*.db-wal
+# Excel'den aktarma sırasında oluşan geçici yüklemeler.
+PerfApp/App_Data/uploads/*
+!PerfApp/App_Data/uploads/.gitkeep
+
+# ---------- Excel dosyaları (kişisel veri — depoya girmez) ----------
+# Öğrenci listeleri/puanları içeren kaynak Excel dosyaları yüklenmez.
+*.xlsx
+~$*.xlsx
+*.tmp
+
+# ---------- İşletim sistemi ----------
+.DS_Store
+Thumbs.db
+desktop.ini

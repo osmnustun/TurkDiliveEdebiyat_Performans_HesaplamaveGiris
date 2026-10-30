@@ -1,0 +1,141 @@
+@page
+@model PerfApp.Pages.Degerlendirme.GirisModel
+@{
+    ViewData["Title"] = "Puan Girişi";
+    ViewData["Active"] = "score";
+    ViewData["BodyClass"] = "has-savebar";
+    var component = Model.Component!;
+    var result = Model.Result!;
+}
+
+<div class="page-head" style="margin-bottom:12px">
+    <div class="eyebrow">@Model.Class!.Name · @component.Code · 1. Dönem</div>
+    <h1>@component.Name</h1>
+    <p>@result.Groups.Count grup · toplam @Ui.N(Model.TotalMaxPoints) puan · her gruba 0-100</p>
+</div>
+
+<div class="entry-head">
+    <a class="nav-arrow @(Model.PrevId is null ? "disabled" : "")"
+       asp-page="/Degerlendirme/Giris"
+       asp-route-classId="@Model.ClassId" asp-route-componentId="@Model.ComponentId" asp-route-studentId="@Model.PrevId" asp-route-sort="@Model.Sort"
+       aria-label="Önceki öğrenci">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+    </a>
+    <div class="entry-student">
+        <b>@Model.Current!.FullName</b>
+        <small>@(Model.Current.Number is null ? "" : "No: " + Model.Current.Number + " · ")Öğrenci @(Model.Index + 1) / @Model.Students.Count</small>
+    </div>
+    <a class="nav-arrow @(Model.NextId is null ? "disabled" : "")"
+       asp-page="/Degerlendirme/Giris"
+       asp-route-classId="@Model.ClassId" asp-route-componentId="@Model.ComponentId" asp-route-studentId="@Model.NextId" asp-route-sort="@Model.Sort"
+       aria-label="Sonraki öğrenci">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+    </a>
+</div>
+
+<div class="d-flex gap-2 mb-3 student-picker">
+    <select class="select-app flex-grow-1" data-student-picker
+            data-base="@Url.Page("/Degerlendirme/Giris")"
+            data-class="@Model.ClassId" data-component="@Model.ComponentId" data-sort="@Model.Sort">
+        @foreach (var student in Model.Students)
+        {
+            <option value="@student.Id" selected="@(student.Id == Model.StudentId ? "selected" : null)">
+                @(Model.CompletedStudentIds.Contains(student.Id) ? "✓ " : "")@student.FullName
+            </option>
+        }
+    </select>
+    <div class="sort-toggle compact" role="group" aria-label="Öğrenci sıralaması">
+        <a asp-page="/Degerlendirme/Giris" asp-route-classId="@Model.ClassId" asp-route-componentId="@Model.ComponentId" asp-route-studentId="@Model.StudentId" asp-route-sort="no"
+           class="@(Model.Sort == "no" ? "active" : "")" title="Okul numarasına göre">No</a>
+        <a asp-page="/Degerlendirme/Giris" asp-route-classId="@Model.ClassId" asp-route-componentId="@Model.ComponentId" asp-route-studentId="@Model.StudentId" asp-route-sort="ad"
+           class="@(Model.Sort == "ad" ? "active" : "")" title="Ad soyada göre">A-Z</a>
+    </div>
+</div>
+
+<form method="post" id="scoreForm" data-submit-once>
+    <input type="hidden" name="classId" value="@Model.ClassId" />
+    <input type="hidden" name="componentId" value="@Model.ComponentId" />
+    <input type="hidden" name="studentId" value="@Model.StudentId" />
+    <input type="hidden" name="sort" value="@Model.Sort" />
+
+    @for (var i = 0; i < result.Groups.Count; i++)
+    {
+        var group = result.Groups[i];
+        var input = Model.Inputs[i];
+        <div class="score-card" data-max="@UiInv.Inv(group.MaxPoints)">
+            <input type="hidden" name="Inputs[@i].GroupId" value="@group.Id" />
+            <div class="score-card-top">
+                <span class="group-no">@(i + 1)</span>
+                <h3>@group.Name</h3>
+                <span class="weight-pill">%@Ui.N(group.SharePercent)</span>
+            </div>
+            <div class="score-sub">
+                @group.Criteria.Count ölçüt · @Ui.N(group.MaxPoints) puan · Dağıtılan:
+                <b data-earned>@Ui.N((group.Score ?? 0) / 100.0 * group.MaxPoints) / @Ui.N(group.MaxPoints)</b>
+            </div>
+
+            <div class="score-row">
+                <input type="range" class="score-range" min="0" max="100" step="1"
+                       value="@input.Score" data-range aria-label="@group.Name puanı" />
+                <input type="number" name="Inputs[@i].Score" value="@input.Score"
+                       class="score-number" data-number min="0" max="100" step="1"
+                       inputmode="numeric" aria-label="@group.Name puanı" />
+            </div>
+
+            <div class="quick-chips">
+                @foreach (var value in new[] { 0, 40, 60, 80, 100 })
+                {
+                    <button type="button" data-value="@value" class="@(input.Score == value ? "active" : "")">@value</button>
+                }
+            </div>
+
+            <details class="criteria-details">
+                <summary>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                    Ölçütlere dağılımı gör
+                </summary>
+                @foreach (var criterion in group.Criteria)
+                {
+                    <div class="crit-line" data-crit-max="@UiInv.Inv(criterion.MaxPoints)">
+                        <span class="dot"></span>
+                        <span>@criterion.Title</span>
+                        <b>@Ui.N(criterion.Earned)</b>
+                    </div>
+                }
+            </details>
+        </div>
+    }
+
+    <div class="save-bar no-print">
+        <div class="save-bar-inner">
+            <div class="live-score">
+                <small>Bileşen puanı</small>
+                <strong data-live-score>@(result.Score ?? 0)</strong><span>/100</span>
+            </div>
+            <div class="save-actions">
+                <button type="submit" name="action" value="save" class="btn-app-outline">Kaydet</button>
+                <button type="submit" name="action" value="next" class="btn-app">Kaydet + Sonraki</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="d-flex justify-content-center mt-2">
+    <a asp-page="/Degerlendirme/Index" asp-route-classId="@Model.ClassId" asp-route-sort="@Model.Sort" class="small muted">← Bileşen listesine dön</a>
+</div>
+
+@section Scripts {
+    <script>
+        (function () {
+            var picker = document.querySelector('[data-student-picker]');
+            if (!picker) return;
+            picker.addEventListener('change', function () {
+                window.location.href = picker.dataset.base
+                    + '?classId=' + encodeURIComponent(picker.dataset.class)
+                    + '&componentId=' + encodeURIComponent(picker.dataset.component)
+                    + '&studentId=' + encodeURIComponent(picker.value)
+                    + '&sort=' + encodeURIComponent(picker.dataset.sort);
+            });
+        })();
+    </script>
+}

@@ -1,0 +1,47 @@
+@page
+@model PerfApp.Pages.Olcutler.IndexModel
+@{
+    ViewData["Title"] = "Ölçütler";
+    ViewData["Active"] = "rubric";
+}
+
+<div class="page-head">
+    <div class="eyebrow">Rubrik Yönetimi</div>
+    <h1>Ölçütler</h1>
+    <p>Excel'deki orijinal maddeleri düzenleyin, maksimum puanları değiştirin, grupları yönetin.</p>
+</div>
+
+<div class="chip-row">
+    @foreach (var grade in new[] { 9, 10, 11 })
+    {
+        <a asp-page="/Olcutler/Index" asp-route-grade="@grade"
+           class="chip @(Model.Grade == grade ? "active" : "")">@grade. Sınıf</a>
+    }
+</div>
+
+<div class="alert-app info mb-3">
+    Gruplar otomatik olarak 3-5 parçaya bölünür. Bir grubun puanı, içindeki ölçütlere maksimum puanları oranında dağıtılır.
+</div>
+
+@if (Model.Components.Count == 0)
+{
+    <div class="empty"><b>Ölçüt bulunamadı</b>Bu sınıf için tanımlı bileşen yok.</div>
+}
+else
+{
+    @foreach (var component in Model.Components)
+    {
+        var total = component.Criteria.Sum(c => c.MaxPoints);
+        <a asp-page="/Olcutler/Duzenle" asp-route-componentId="@component.Id" class="component-card">
+            <div class="component-top">
+                <span class="code-badge">@component.Code</span>
+                <h3>@component.Name</h3>
+                <span class="@(component.Kind == "P1" ? "badge-p1" : "badge-p2")">@(component.Kind == "P1" ? "1. PERF." : "2. PERF.")</span>
+            </div>
+            <div class="component-meta">
+                <span>@component.Criteria.Count ölçüt · @component.Groups.Count grup · @Ui.N(total) puan</span>
+                <span>Düzenle →</span>
+            </div>
+        </a>
+    }
+}

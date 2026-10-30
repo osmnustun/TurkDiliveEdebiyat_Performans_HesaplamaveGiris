@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0f766e" />
+    <title>@ViewData["Title"] · Performans</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="@ViewData["BodyClass"]">
+    <header class="app-header no-print">
+        <div class="app-header-inner">
+            <a asp-page="/Index" class="brand">
+                <span class="brand-mark">P</span>
+                <span class="brand-text">Performans<small>Ölçme ve Değerlendirme</small></span>
+            </a>
+            <a asp-page="/IceAktar" class="icon-btn" aria-label="Excel'den öğrenci aktar" title="Excel'den aktar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+            </a>
+        </div>
+    </header>
+
+    <main class="app-main">
+        @RenderBody()
+    </main>
+
+    <nav class="tabbar no-print" aria-label="Ana menü">
+        <a asp-page="/Index" class="tab @(ViewData["Active"] as string == "home" ? "active" : "")">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7"/><path d="M5 9v11h14V9"/><path d="M9 20v-6h6v6"/></svg>
+            <span>Ana Sayfa</span>
+        </a>
+        <a asp-page="/Ogrenciler/Index" class="tab @(ViewData["Active"] as string == "students" ? "active" : "")">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <span>Öğrenciler</span>
+        </a>
+        <a asp-page="/Degerlendirme/Index" class="tab @(ViewData["Active"] as string == "score" ? "active" : "")">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+            <span>Not Girişi</span>
+        </a>
+        <a asp-page="/Sonuclar/Index" class="tab @(ViewData["Active"] as string == "results" ? "active" : "")">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-4 4 3 5-7"/></svg>
+            <span>Sonuçlar</span>
+        </a>
+        <a asp-page="/Olcutler/Index" class="tab @(ViewData["Active"] as string == "rubric" ? "active" : "")">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><path d="M1 14h6"/><path d="M9 8h6"/><path d="M17 16h6"/></svg>
+            <span>Ölçütler</span>
+        </a>
+        <a asp-page="/DisAktar/Index" class="tab @(ViewData["Active"] as string == "export" ? "active" : "")">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>
+            <span>Dışa Aktar</span>
+        </a>
+    </nav>
+
+    @if (TempData["Toast"] is string toast && !string.IsNullOrWhiteSpace(toast))
+    {
+        <div class="toast-float no-print" id="appToast" role="status">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            <span>@toast</span>
+        </div>
+    }
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

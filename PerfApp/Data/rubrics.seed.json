@@ -1,0 +1,1170 @@
+[
+ {
+  "grade": 9,
+  "components": [
+   {
+    "code": "K1",
+    "name": "1. Tema Konuşma",
+    "kind": "P1",
+    "order": 1,
+    "criteria": [
+     {
+      "title": "Temaya uygunluk",
+      "description": "Konuşmaya etkili giriş yapma, konuşmayı sürdürme etkili bir tamamlama istenilen düzeyde yapılmamıştır. (4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "Düşünsel Süreçleri Kontrol Etme",
+      "description": "Düşünceleri, konuşmanın ana fikri etrafında ifade edememiştir. (4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "Söz varlığı",
+      "description": "Duygu ve düşüncelerini tutarlı bir biçimde organize edememiştir. (4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "Organizasyon",
+      "description": "Duygu ve düşüncelerini tutarlı bir biçimde organize edememiştir. (4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "Akıcılık",
+      "description": "İşitilebilir bir ses tonuyla konuşmamıştır. (4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "Gereksiz ses tekrarına düşmeden akıcı bir şekilde konuşmamıştır.",
+      "description": "Gereksiz ses tekrarına düşmeden akıcı bir şekilde konuşmamıştır. (4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "Vurgu ve tonlamaya dikkat ederek akıcı bir şekilde konuşmamıştır.",
+      "description": "Vurgu ve tonlamaya dikkat ederek akıcı bir şekilde konuşmamıştır. (4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "Beden Dili",
+      "description": "Konuşmada jest ve mimikleri etkili kullanmış, dinleyicilerle yeterli göz teması kurmamıştır. (4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "İş Birliği",
+      "description": "Takımda yapılan görev paylaşımı doğrultusunda seçilen şapkanın temsil ettiği görevi yerine getirmemiştir. (4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "Zaman Yönetimi",
+      "description": "Konuşmada süreyi etkin bir şekilde kullanmamıştır. (4 puan)",
+      "maxPoints": 10
+     }
+    ]
+   },
+   {
+    "code": "K2",
+    "name": "2. Tema Konuşma",
+    "kind": "P1",
+    "order": 2,
+    "criteria": [
+     {
+      "title": "Planlama",
+      "description": "Sunumu planlama ve plan doğrultusunda gerçekleştirme istenilen düzeyde yapılmamıştır. (4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "Düşünsel süreçleri kontrol etme",
+      "description": "Sunumu amaca uygun örneklerle desteklememiştir. (4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "Söz varlığı",
+      "description": "Yazılı ürünü imge ve çağrışım değeri yüksek ifadelerle yeterli düzeyde zenginleştirmemiştir. (4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "Akıcılık",
+      "description": "Gereksiz ses tekrarlarına düşmeden sunumu akıcı bir şekilde gerçekleştirmemiştir. (4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "Beden dili",
+      "description": "Sunumda jest ve mimiklerini etkili kullanmamış, dinleyicilerle yeterli göz temasını kurmamıştır. (4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "İş birliği",
+      "description": "Sunumda takım içindeki sorumluluğunu istenilen düzeyde yerine getirmemiştir. (4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "Zaman yönetimi",
+      "description": "Sunumunda süreyi etkili bir şekilde kullanmamıştır. (4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "İçerik kurgusu",
+      "description": "Yazılı üründe yazım kurallarının ve noktalama işaretlerinin kullanımı yeterli düzeyde değildir. (4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "Yazılı ürünü imge ve çağrışım değeri yüksek ifadelerle yeterli düzeyde zenginleştirmemiştir.",
+      "description": "Yazılı ürünü imge ve çağrışım değeri yüksek ifadelerle yeterli düzeyde zenginleştirmemiştir. (4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "Sunumda karşılaştırma, betimleme, benzetme gibi düşünceyi geliştirme yollarından yararlanmamıştır.",
+      "description": "Sunumda karşılaştırma, betimleme, benzetme gibi düşünceyi geliştirme yollarından yararlanmamıştır. (4 puan)",
+      "maxPoints": 10
+     }
+    ]
+   },
+   {
+    "code": "Y1",
+    "name": "1. Tema Yazma",
+    "kind": "P1",
+    "order": 3,
+    "criteria": [
+     {
+      "title": "Temaya uygunluk",
+      "description": "Dörtlüklerin temasını yeterli düzeyde yansıtmamıştır. (4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "Ana duyguya uygunluk",
+      "description": "Dörtlüklerin ana duygusunu yeterli düzeyde yansıtmamıştır. (4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "İmge ve çağrışım kullanımı",
+      "description": "Yazılı ürünü imge ve çağrışım değeri yüksek ifadelerle yeterli düzeyde zenginleştirmemiştir. (4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "Açık ve örtük iletiler",
+      "description": "Dörtlüklerin açık ve örtük iletilerini yeterli düzeyde yansıtmamıştır. (4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "Betimleme unsurları",
+      "description": "Yazılı üründe niteleyici kelime ve kelime gruplarının anlatımı zenginleştirecek şekilde yeterli düzeyde kullanmamıştır. (4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "Söz varlığı",
+      "description": "Dilimize henüz yerleşmemiş yabancı kelimelerin yerine Türkçe kelimeleri yeterli düzeyde kullanmamıştır. (4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "Akıcılık",
+      "description": "Bölümler arası geçişleri eksik yapmış yeterli düzeyde sağlayamamıştır. (4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "Yazım ve noktalama",
+      "description": "Yazılı üründe yazım kurallarının ve noktalama işaretlerinin kullanımı yeterli düzeyde değildir. (4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "Özgünlük",
+      "description": "Yazılı ürünü özgün fikirlerle zenginleştirme yeterli düzeyde yapılamamıştır. (8 puan)",
+      "maxPoints": 20
+     }
+    ]
+   },
+   {
+    "code": "Y2",
+    "name": "2. Tema Yazma",
+    "kind": "P1",
+    "order": 4,
+    "criteria": [
+     {
+      "title": "Planlama",
+      "description": "Yazılı ürünü bir plan doğrultusunda oluşturmamıştır. (4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "Temaya uygunluk",
+      "description": "Yazılı üründe dinlediği şiirin temasına uygun duyguları değerlendirmemiştir. 4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "İmge ve çağrışım kullanımı",
+      "description": "Yazılı ürünün anlamını zenginleştiren imgelerden yararlanmamıştır. (4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "Kelimeleri okurda çağrışım uyandıracak şekilde kullanmamıştır.",
+      "description": "Kelimeleri okurda çağrışım uyandıracak şekilde kullanmamıştır. (4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "Akıcılık ve anlatım",
+      "description": "Temaya uygun açık ve örtük iletilerle ana duyguyu değerlendirmemiştir. (4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "Söz varlığı",
+      "description": "Bağlama uygun sözcüklerle yazılı ürünü zenginleştirmemiştir. (4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "Ritim ve ahenk",
+      "description": "Dizelerdeki hecelerin eşitliğiyle ritim ve ahenk oluşturmamıştır. (4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "Akıcılık",
+      "description": "Bölümler arası geçişleri başarıyla yaparak yazılı ürünün kolay okunmasını sağlamamıştır. (4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "Şiirin Sunumu",
+      "description": "Yazılı ürünü vurgu ve tonlamaya dikkat ederek sunmamıştır. (4 puan)",
+      "maxPoints": 10
+     },
+     {
+      "title": "Yazılı ürünü sunarken kelimeleri doğru telaffuz etmemiştir.",
+      "description": "Yazılı ürünü sunarken kelimeleri doğru telaffuz etmemiştir. (4 puan)",
+      "maxPoints": 10
+     }
+    ]
+   },
+   {
+    "code": "B1",
+    "name": "1. Tema Kitap Okuma",
+    "kind": "P2",
+    "order": 5,
+    "criteria": [
+     {
+      "title": "Okuma öncesinde metnin başlığını, görsellerini ve afişini inceler.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Eseri / Romanı okuma amacını, belirler.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metni özetler.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metnin iletisini belirler",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metindeki kurgu ve gerçek unsurları belirleyerek metne katkısını tartışırır.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metinde ilk defa karşılaştığı bilgilerin doğruluğunu araştırır.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Metindeki imge, sembol, metafor, çağrışım ve göndermeleri tespit eder.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metnin içeriği ile daha önce karşılaştığı metinleri çeşitli açılardan karşılaştırır.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Metnin yazarının yerine kendimi koyarak bu metnin daha iyi nasıl olabileceğini düşünür",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğum metni arkadaşlarımla tartışmak için argümanlar (çıkarım, kanıt) üretirir.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metnin entelektüel merakına ve araştırmacı kişiliğine katkısını değerlendirir.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metin hakkında öğretmenin ve arkadaşlarının fikirlerini öğrendikten sonra kendi görüşleriyle karşılaştırır.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metinde geçen çatışmalara alternatif çözümler üretir./ Okuduğu metin öğretici metinse örnek metin oluşturur.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metnin farklı disiplinlerle(psikoloji, tarih, felsefe, coğrafya vb.) ilişkilerini tespit eder.",
+      "description": "",
+      "maxPoints": 3
+     }
+    ]
+   },
+   {
+    "code": "B2",
+    "name": "2. Tema Kitap Okuma",
+    "kind": "P2",
+    "order": 6,
+    "criteria": [
+     {
+      "title": "Okuma öncesinde metnin başlığını, görsellerini ve afişini inceler.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Romanı / eseri okuma amacını, belirler.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metni özetler.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metnin iletisini belirler",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metindeki kurgu ve gerçek unsurları belirleyerek metne katkısını tartışırır.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metinde ilk defa karşılaştığı bilgilerin doğruluğunu araştırır.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Metindeki imge, sembol, metafor, çağrışım ve göndermeleri tespit eder.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metnin içeriği ile daha önce karşılaştığı metinleri çeşitli açılardan karşılaştırır.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Metnin yazarının yerine kendimi koyarak bu metnin daha iyi nasıl olabileceğini düşünür",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğum metni arkadaşlarımla tartışmak için argümanlar (çıkarım, kanıt) üretirir.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metnin entelektüel merakına ve araştırmacı kişiliğine katkısını değerlendirir.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metin hakkında öğretmenin ve arkadaşlarının fikirlerini öğrendikten sonra kendi görüşleriyle karşılaştırır.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metinde geçen çatışmalara alternatif çözümler üretir./ Okuduğu metin öğretici metinse örnek metin oluşturur.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metnin farklı disiplinlerle(psikoloji, tarih, felsefe, coğrafya vb.) ilişkilerini tespit eder.",
+      "description": "",
+      "maxPoints": 3
+     }
+    ]
+   },
+   {
+    "code": "D",
+    "name": "Ders İçi Gözlem",
+    "kind": "P2",
+    "order": 7,
+    "criteria": [
+     {
+      "title": "Derse hazırlıklı ve planlı gelme, ders dışı etkinliklerini gerçekleştirme",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Ders için gerekli araç gereçleri getirerek, düzenli ve temiz kullanma",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Türkçe'yi doğru ve düzgün konuşma ve yazma",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Derse karşı olumlu davranış geliştirme ve aktif katılma",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Arkadaşlarıyla işbirliği yapma (Grup çalışmalarına katılma)",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Verilen ödevleri (görevleri) zamanında yapma",
+      "description": "",
+      "maxPoints": 3
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "grade": 10,
+  "components": [
+   {
+    "code": "K1",
+    "name": "1. Tema Konuşma",
+    "kind": "P1",
+    "order": 1,
+    "criteria": [
+     {
+      "title": "Beden Dili",
+      "description": "Jest ve mimiklerini şiirdeki duyguların tümüne yansıtacak biçimde kullanabildi.",
+      "maxPoints": 3
+     },
+     {
+      "title": "İletişim Kurma",
+      "description": "Şiir okurken dinleyicilerle sürekli göz teması kurabildi.",
+      "maxPoints": 3
+     },
+     {
+      "title": "Ses Kontrolü",
+      "description": "Sahneye çıktığı andan sahneden indiği ana kadar sesini kontrol altında tutabildi.",
+      "maxPoints": 3
+     },
+     {
+      "title": "Türkçeyi Doğru ve Etkili Kullanma",
+      "description": "Sunum süresince Türkçeyi tamamen doğru ve etkili kullanabildi.",
+      "maxPoints": 3
+     },
+     {
+      "title": "Durak, Vurgu ve Tonlama",
+      "description": "Şiirdeki tüm durak, vurgu ve tonlamaları doğru yerde yapabildi.",
+      "maxPoints": 3
+     },
+     {
+      "title": "Zaman Kullanımı",
+      "description": "Şiiri, planladığı sürede tamamlayabildi.",
+      "maxPoints": 3
+     },
+     {
+      "title": "Sahne Hakimiyeti",
+      "description": "Sahnenin her tarafını kullanabildi.",
+      "maxPoints": 3
+     },
+     {
+      "title": "Şiirin Görsellerle Desteklenmesi",
+      "description": "Görsellerin tümü şiirin temasına uygundur.",
+      "maxPoints": 3
+     },
+     {
+      "title": "Fon Müziği Seçimi",
+      "description": "Fon müziği şiirin temasına tamamen uygundur.",
+      "maxPoints": 3
+     },
+     {
+      "title": "Seçilen Şiirin Temaya Uygunluğu",
+      "description": "Seçilen şiir temaya tamamen uygundur.",
+      "maxPoints": 3
+     },
+     {
+      "title": "Kıyafet Seçimi",
+      "description": "Kıyafeti, seçtiği şiire ve dinletiye tamamen uygundu.",
+      "maxPoints": 3
+     }
+    ]
+   },
+   {
+    "code": "K2",
+    "name": "2. Tema Konuşma",
+    "kind": "P1",
+    "order": 2,
+    "criteria": [
+     {
+      "title": "Anlam",
+      "description": "Podcastte kullanılan ifadeler anlamlı ve anlaşılırdır.",
+      "maxPoints": 3
+     },
+     {
+      "title": "İşitsel Ögelerin Kullanımı",
+      "description": "Podcaste uygun işitsel ögeler kullanılmıştır.",
+      "maxPoints": 3
+     },
+     {
+      "title": "Dil ve Anlatımın Özellikleri",
+      "description": "Podcastte Türkçe dil yapısına, bağdaşıklık ve bağlaşıklığa uygun ifadeler kullanılmıştır.",
+      "maxPoints": 3
+     },
+     {
+      "title": "Doğruluk, Geçerlilik, Tutarlılık",
+      "description": "Podcastteki bilgiler doğru, geçerli ve tutarlıdır.",
+      "maxPoints": 3
+     },
+     {
+      "title": "Özgünlük",
+      "description": "Podcast özgün bir üslupla hazırlanmıştır.",
+      "maxPoints": 3
+     },
+     {
+      "title": "Vurgu ve Tonlama",
+      "description": "Podcastin içeriğine uygun olarak gerekli yerlerde vurgu ve tonlama yapılmıştır.",
+      "maxPoints": 3
+     }
+    ]
+   },
+   {
+    "code": "Y1",
+    "name": "1. Tema Yazma",
+    "kind": "P1",
+    "order": 3,
+    "criteria": [
+     {
+      "title": "Akıcılık",
+      "description": "Metin ve görsel akışı arasında tam bir uyum vardır",
+      "maxPoints": 3
+     },
+     {
+      "title": "Görsel Ögelerin Kullanımı",
+      "description": "Metnin içeriğine uygun görseller seçilmiş/ çizilmiştir",
+      "maxPoints": 3
+     },
+     {
+      "title": "Karakter Tasarımı",
+      "description": "Metnin içeriğine uygun özgün karakterler oluşturulmuştur.",
+      "maxPoints": 3
+     },
+     {
+      "title": "Senaryo",
+      "description": "Metnin teması ve ana fikriyle tamamen uyumlu bir senaryo hazırlanmıştır.",
+      "maxPoints": 3
+     },
+     {
+      "title": "Olay Akışı",
+      "description": "Film şeridinde ifadeler arasındaki geçiş bağlantıları tutarlıdır.",
+      "maxPoints": 3
+     },
+     {
+      "title": "Estetik",
+      "description": "Film şeridi estetik açıdan oldukça iyidir",
+      "maxPoints": 3
+     },
+     {
+      "title": "Dil ve Anlatım",
+      "description": "Film şeridinde Türkçenin dil kurallarına uyulmuş, anlatım bozukluğu yapılmamıştır",
+      "maxPoints": 3
+     },
+     {
+      "title": "Çalışmayı Zenginleştirme",
+      "description": "Film şeridi farklı anlatım biçimleri ve teknikleri, bağlama uygun söz varlıkları (deyim, atasözü, mecaz vb.) ile zenginleştirilmiştir.",
+      "maxPoints": 3
+     },
+     {
+      "title": "Yazım ve Noktalama",
+      "description": "Film şeridinde yazım ve noktalama kurallarına tamamen uyulmuştur.",
+      "maxPoints": 3
+     },
+     {
+      "title": "Olumlu Tutum ve Değerleri Vurgulama",
+      "description": "Film şeridinde olumlu tutum ve değerler belirgin biçimde öne çıkarılmıştır.",
+      "maxPoints": 3
+     }
+    ]
+   },
+   {
+    "code": "Y2",
+    "name": "2. Tema Yazma",
+    "kind": "P1",
+    "order": 4,
+    "criteria": [
+     {
+      "title": "Anlam",
+      "description": "Seçtiği öğretici metnin anlamını dönüştürdüğü edebî metne tam olarak yansıtmıştır",
+      "maxPoints": 3
+     },
+     {
+      "title": "Görsel ve İşitsel Ögelerin Kullanımı",
+      "description": "Metnin içeriğine uygun görsel/işitsel ögeler kullanılmıştır.",
+      "maxPoints": 3
+     },
+     {
+      "title": "Dil İşlevi",
+      "description": "Metnin dili, işlevine uygun olarak kullanılmıştır.",
+      "maxPoints": 3
+     },
+     {
+      "title": "Özgünlük",
+      "description": "Metindeki dil ve anlatım unsurları özgün bir üslup oluşturacak şekilde kullanılmıştır.",
+      "maxPoints": 3
+     },
+     {
+      "title": "Etkileyicilik",
+      "description": "Söz sanatlarını metnin etkileyiciliğini arttıracak şekilde kullanmıştır.",
+      "maxPoints": 3
+     },
+     {
+      "title": "Estetik",
+      "description": "Dönüştürülen metin estetik açıdan oldukça iyidir.",
+      "maxPoints": 3
+     },
+     {
+      "title": "Yazım ve Noktalama",
+      "description": "Metninde yazım ve noktalama kurallarına tamamen uymuştur.",
+      "maxPoints": 3
+     }
+    ]
+   },
+   {
+    "code": "B1",
+    "name": "1. Tema Kitap Okuma",
+    "kind": "P2",
+    "order": 5,
+    "criteria": [
+     {
+      "title": "Okuma öncesinde metnin başlığını, görsellerini ve afişini inceler.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Romanı / eseri okuma amacını, belirler.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metni özetler.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metnin iletisini belirler",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metindeki kurgu ve gerçek unsurları belirleyerek metne katkısını tartışırır.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metinde ilk defa karşılaştığı bilgilerin doğruluğunu araştırır.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metinlerdeki tutarsızlıkları fark eder.",
+      "description": "Metindeki imge, sembol, metafor, çağrışım ve göndermeleri tespit eder.",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metnin içeriği ile daha önce karşılaştığı metinleri çeşitli açılardan karşılaştırır.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Metnin yazarının yerine kendimi koyarak bu metnin daha iyi nasıl olabileceğini düşünür",
+      "description": "Metnin yazarının yerine kendimi koyarak bu metnin daha iyi nası l olabileceğini düşünür",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metni arkadaşlarımla tartışmak için argümanlar (çıkarım, kanıt) üretirir.",
+      "description": "Okuduğum metni arkadaşlarımla tartışmak için argümanlar (çıkarım, kanıt) üretirir.",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metnin entelektüel merakına ve araştırmacı kişiliğine katkısını değerlendirir.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metin hakkında öğretmenin ve arkadaşlarının fikirlerini öğrendikten sonra kendi görüşleriyle karşılaştırır.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metinde geçen çatışmalara alternatif çözümler üretir./ Okuduğu metin öğretici metinse örnek metin oluşturur.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metnin farklı disiplinlerle(psikoloji, tarih, felsefe, coğrafya vb.) ilişkilerini tespit eder.",
+      "description": "",
+      "maxPoints": 3
+     }
+    ]
+   },
+   {
+    "code": "B2",
+    "name": "2. Tema Kitap Okuma",
+    "kind": "P2",
+    "order": 6,
+    "criteria": [
+     {
+      "title": "Okuma öncesinde metnin başlığını, görsellerini ve afişini inceler.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Romanı / eseri okuma amacını, belirler.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metni özetler.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metnin iletisini belirler",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metindeki kurgu ve gerçek unsurları belirleyerek metne katkısını tartışırır.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metinde ilk defa karşılaştığı bilgilerin doğruluğunu araştırır.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metinlerdeki tutarsızlıkları fark eder.",
+      "description": "Metindeki imge, sembol, metafor, çağrışım ve göndermeleri tespit eder.",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metnin içeriği ile daha önce karşılaştığı metinleri çeşitli açılardan karşılaştırır.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Metnin yazarının yerine kendimi koyarak bu metnin daha iyi nasıl olabileceğini düşünür",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metni arkadaşlarımla tartışmak için argümanlar (çıkarım, kanıt) üretirir.",
+      "description": "Okuduğum metni arkadaşlarımla tartışmak için argümanlar (çıkarım, kanıt) üretirir.",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metnin entelektüel merakına ve araştırmacı kişiliğine katkısını değerlendirir.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metin hakkında öğretmenin ve arkadaşlarının fikirlerini öğrendikten sonra kendi görüşleriyle karşılaştırır.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metinde geçen çatışmalara alternatif çözümler üretir./ Okuduğu metin öğretici metinse örnek metin oluşturur.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metnin farklı disiplinlerle(psikoloji, tarih, felsefe, coğrafya vb.) ilişkilerini tespit eder.",
+      "description": "",
+      "maxPoints": 3
+     }
+    ]
+   },
+   {
+    "code": "D",
+    "name": "Ders İçi Gözlem",
+    "kind": "P2",
+    "order": 7,
+    "criteria": [
+     {
+      "title": "Derse hazırlıklı ve planlı gelme, ders dışı etkinliklerini gerçekleştirme",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Ders için gerekli araç gereçleri getirerek, düzenli ve temiz kullanma",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Türkçe'yi doğru ve düzgün konuşma ve yazma",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Derse karşı olumlu davranış geliştirme ve aktif katılma",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Arkadaşlarıyla işbirliği yapma (Grup çalışmalarına katılma)",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Verilen ödevleri (görevleri) zamanında yapma",
+      "description": "",
+      "maxPoints": 3
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "grade": 11,
+  "components": [
+   {
+    "code": "K1",
+    "name": "1. Tema Konuşma",
+    "kind": "P1",
+    "order": 1,
+    "criteria": [
+     {
+      "title": "Konu Seçimi",
+      "description": "Konu seçimi canlandırmanın amacına uygun değildir. (1-4 puan)",
+      "maxPoints": 16
+     },
+     {
+      "title": "İçeriğin Uygunluğu",
+      "description": "Performans görevinin amacına uygun bir içerik belirlenmemiştir. (1-4 puan)",
+      "maxPoints": 16
+     },
+     {
+      "title": "Özgünlük",
+      "description": "Canlandırmada duygu, düşünce ve istekler özgün biçimde iletilmemiştir. (1-4 puan)",
+      "maxPoints": 18
+     },
+     {
+      "title": "Dil ve Üslup",
+      "description": "Canlandırmada kullanılan dil ve üslup, içeriğe ve hedef kitleye uygun değildir. (1-4 puan)",
+      "maxPoints": 16
+     },
+     {
+      "title": "Plan Oluşturma",
+      "description": "Canlandırma performans görevi için oluşturulan plan yetersizdir. (1-4 puan)",
+      "maxPoints": 16
+     },
+     {
+      "title": "Canlandırma Becerisi",
+      "description": "Performans görevinin amacına uygun bir canlandırma becerisi sergilenmemiştir. (1-4 puan)",
+      "maxPoints": 18
+     }
+    ]
+   },
+   {
+    "code": "K2",
+    "name": "2. Tema Konuşma",
+    "kind": "P1",
+    "order": 2,
+    "criteria": [
+     {
+      "title": "Konuya hâkimiyet",
+      "description": "Konuşmada konuya hâkimiyet zayıftır. (1-5 puan)",
+      "maxPoints": 20
+     },
+     {
+      "title": "Söz varlığını etkili ve güzel kullanma",
+      "description": "Konuşmada söz varlığı etkili ve güzel kullanılmamıştır. (1-5 puan)",
+      "maxPoints": 20
+     },
+     {
+      "title": "Beden dili ve sesle anlam oluşturma",
+      "description": "Konuşmada kullanılan beden dili ve ses, anlam oluşturmaya hizmet etmemiştir. (1-5 puan)",
+      "maxPoints": 20
+     },
+     {
+      "title": "Zamanı ve mekânı konuşmaya uygun şekilde yönetme",
+      "description": "Mekân ve zamanı konuşmaya uygun şekilde kullanma farkındalığı zayıftır. (1-5 puan)",
+      "maxPoints": 20
+     },
+     {
+      "title": "Seyircinin ilgisini çekme",
+      "description": "Hedef kitlenin ilgisini çekecek bir konuşma gerçekleştirilme-miştir. (1-5 puan)",
+      "maxPoints": 20
+     }
+    ]
+   },
+   {
+    "code": "Y1",
+    "name": "1. Tema Yazma",
+    "kind": "P1",
+    "order": 3,
+    "criteria": [
+     {
+      "title": "Türkçenin doğru kullanımı",
+      "description": "Metin, Türkçenin doğru kullanımı açısından yetersizdir. (1-4 puan)",
+      "maxPoints": 16
+     },
+     {
+      "title": "Dil ve üslup",
+      "description": "Metinde dil ve üslup doğru ve yerinde kullanılmamıştır. (1-5 puan)",
+      "maxPoints": 18
+     },
+     {
+      "title": "Özgünlük",
+      "description": "Metin özgünlük açısından alt düzeydedir. (1-4 puan)",
+      "maxPoints": 16
+     },
+     {
+      "title": "Gerekli durumlarda öznel ve nesnel ifadelere yer verme",
+      "description": "Metinde öznel ve nesnel ifadeler, doğru ve yerinde kullanılmamıştır. (1-4 puan)",
+      "maxPoints": 16
+     },
+     {
+      "title": "Başlık ve hitap kullanımı",
+      "description": "Metinde amaç ve içeriğe uygun bir başlık ve hitap kullanılmamıştır. (1-5 puan)",
+      "maxPoints": 18
+     },
+     {
+      "title": "Yazım ve noktalama",
+      "description": "Metinde yazım ve noktalama kurallarına uygunluk alt düzeydedir. (1-4 puan)",
+      "maxPoints": 16
+     }
+    ]
+   },
+   {
+    "code": "Y2",
+    "name": "2. Tema Yazma",
+    "kind": "P1",
+    "order": 4,
+    "criteria": [
+     {
+      "title": "Dil ve üslup",
+      "description": "Metinde kullanılan dil ve üslup, içeriğe ve hedef kitleye uygun değildir. (1-5 puan)",
+      "maxPoints": 20
+     },
+     {
+      "title": "Özgünlük",
+      "description": "Metinde duygu, düşünce ve istekler özgün biçimde iletilmemiştir. (1-5 puan)",
+      "maxPoints": 20
+     },
+     {
+      "title": "Öznel ve nesnel ifadelere yer verme",
+      "description": "Metinde öznel ve nesnel ifadelere yer verilmemiştir. (1-5 puan)",
+      "maxPoints": 20
+     },
+     {
+      "title": "Görsellerden yararlanma",
+      "description": "Metinde görsel ögelere yer verilmemiştir. (1-5 puan)",
+      "maxPoints": 20
+     },
+     {
+      "title": "Yazım ve noktalama",
+      "description": "Metin yazım ve noktalama kurallarının uygulanması açısından oldukça zayıftır. (1-5 puan)",
+      "maxPoints": 20
+     }
+    ]
+   },
+   {
+    "code": "B1",
+    "name": "1. Tema Kitap Okuma",
+    "kind": "P2",
+    "order": 5,
+    "criteria": [
+     {
+      "title": "Okuma öncesinde metnin başlığını, görsellerini ve afişini inceler.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Eseri / Romanı okuma amacını, belirler.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metni özetler.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metnin iletisini belirler",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metindeki kurgu ve gerçek unsurları belirleyerek metne katkısını tartışırır.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metinde ilk defa karşılaştığı bilgilerin doğruluğunu araştırır.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Metindeki imge, sembol, metafor, çağrışım ve göndermeleri tespit eder.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metnin içeriği ile daha önce karşılaştığı metinleri çeşitli açılardan karşılaştırır.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Metnin yazarının yerine kendimi koyarak bu metnin daha iyi nasıl olabileceğini düşünür",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğum metni arkadaşlarımla tartışmak için argümanlar(çıkarım, kanıt) üretirir.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metnin entelektüel merakına ve araştırmacı kişiliğine katkısını değerlendirir.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metin hakkında öğretmenin ve arkadaşlarının fikirlerini öğrendikten sonra kendi görüşleriyle karşılaştırır.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metinde geçen çatışmalara alternatif çözümler üretir./ Okuduğu metin öğretici metinse örnek metin oluşturur.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metnin farklı disiplinlerle(psikoloji, tarih, felsefe, coğrafya vb.) ilişkilerini tespit eder.",
+      "description": "",
+      "maxPoints": 3
+     }
+    ]
+   },
+   {
+    "code": "B2",
+    "name": "2. Tema Kitap Okuma",
+    "kind": "P2",
+    "order": 6,
+    "criteria": [
+     {
+      "title": "Okuma öncesinde metnin başlığını, görsellerini ve afişini inceler.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Eseri / Romanı okuma amacını, belirler.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metni özetler.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metnin iletisini belirler",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metindeki kurgu ve gerçek unsurları belirleyerek metne katkısını tartışırır.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metinde ilk defa karşılaştığı bilgilerin doğruluğunu araştırır.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Metindeki imge, sembol, metafor, çağrışım ve göndermeleri tespit eder.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metnin içeriği ile daha önce karşılaştığı metinleri çeşitli açılardan karşılaştırır.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Metnin yazarının yerine kendimi koyarak bu metnin daha iyi nasıl olabileceğini düşünür",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğum metni arkadaşlarımla tartışmak için argümanlar(çıkarım, kanıt) üretirir.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metnin entelektüel merakına ve araştırmacı kişiliğine katkısını değerlendirir.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metin hakkında öğretmenin ve arkadaşlarının fikirlerini öğrendikten sonra kendi görüşleriyle karşılaştırır.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metinde geçen çatışmalara alternatif çözümler üretir./ Okuduğu metin öğretici metinse örnek metin oluşturur.",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Okuduğu metnin farklı disiplinlerle(psikoloji, tarih, felsefe, coğrafya vb.) ilişkilerini tespit eder.",
+      "description": "",
+      "maxPoints": 3
+     }
+    ]
+   },
+   {
+    "code": "D",
+    "name": "Ders İçi Gözlem",
+    "kind": "P2",
+    "order": 7,
+    "criteria": [
+     {
+      "title": "Derse hazırlıklı ve planlı gelme, ders dışı etkinliklerini gerçekleştirme",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Ders için gerekli araç gereçleri getirerek, düzenli ve temiz kullanma",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Türkçe'yi doğru ve düzgün konuşma ve yazma",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Derse karşı olumlu davranış geliştirme ve aktif katılma",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Arkadaşlarıyla işbirliği yapma (Grup çalışmalarına katılma)",
+      "description": "",
+      "maxPoints": 3
+     },
+     {
+      "title": "Verilen ödevleri (görevleri) zamanında yapma",
+      "description": "",
+      "maxPoints": 3
+     }
+    ]
+   }
+  ]
+ }
+]
