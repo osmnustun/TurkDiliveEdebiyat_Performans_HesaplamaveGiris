@@ -38,7 +38,7 @@ else
             <input type="hidden" name="sort" value="@Model.Sort" />
             <input name="q" value="@Model.Query" class="input-app" placeholder="İsim veya numara ara" autocomplete="off" />
         </form>
-        <a asp-page="/IceAktar" asp-route-classId="@Model.SelectedClassId" class="btn-app-outline" style="min-height:48px;padding:0 14px" title="Excel'den aktar">
+        <a asp-page="/IceAktar/Index" asp-route-classId="@Model.SelectedClassId" class="btn-app-outline" style="min-height:48px;padding:0 14px" title="Excel'den aktar">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
         </a>
     </div>

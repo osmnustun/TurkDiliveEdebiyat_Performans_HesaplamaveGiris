@@ -114,6 +114,25 @@
         });
     }
 
+    function bindTheme() {
+        const root = document.documentElement;
+        const btn = document.querySelector('[data-theme-toggle]');
+        if (!btn) return;
+
+        function sync() {
+            const meta = document.querySelector('meta[name="theme-color"]');
+            if (meta) meta.setAttribute('content', root.getAttribute('data-theme') === 'dark' ? '#0b1220' : '#0f766e');
+        }
+
+        sync();
+        btn.addEventListener('click', function () {
+            const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            root.setAttribute('data-theme', next);
+            try { localStorage.setItem('perf-theme', next); } catch (e) { }
+            sync();
+        });
+    }
+
     function bindToast() {
         const toast = document.getElementById('appToast');
         if (!toast) return;
@@ -145,6 +164,7 @@
     document.addEventListener('DOMContentLoaded', function () {
         bindScoreCards();
         bindConfirm();
+        bindTheme();
         bindToast();
         bindSubmitOnce();
     });

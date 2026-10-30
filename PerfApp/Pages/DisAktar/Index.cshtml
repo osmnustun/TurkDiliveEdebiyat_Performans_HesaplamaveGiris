@@ -16,7 +16,7 @@
     <div class="empty">
         <b>Henüz sınıf yok</b>
         Dışa aktarmak için önce öğrenci ekleyin.
-        <div class="mt-3"><a asp-page="/IceAktar" class="btn-app">Excel'den aktar</a></div>
+        <div class="mt-3"><a asp-page="/IceAktar/Index" class="btn-app">Excel'den aktar</a></div>
     </div>
 }
 else
@@ -65,7 +65,7 @@ else
                asp-route-classId="@Model.SelectedClassId" asp-route-sort="@Model.Sort"
                class="btn-app btn-block">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h8"/></svg>
-                Excel indir (.xlsx)
+                Excel indir @(Model.TemplateCount > 1 ? "(.zip)" : "(.xlsx)")
             </a>
             <a asp-page="/DisAktar/Index" asp-page-handler="Pdf"
                asp-route-classId="@Model.SelectedClassId" asp-route-sort="@Model.Sort"
@@ -73,7 +73,23 @@ else
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M9 15h1.5a1.5 1.5 0 0 0 0-3H9v6"/><path d="M14 18v-6h3"/></svg>
                 PDF indir (.pdf)
             </a>
+            <a asp-page="/DisAktar/Index" asp-page-handler="Zip" asp-route-sort="@Model.Sort"
+               class="btn-app-outline btn-block">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v3"/><path d="M3 8h18v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M10 12h4"/></svg>
+                Tüm sınıfları ZIP indir
+            </a>
         </div>
+
+        @if (Model.UsingTemplates)
+        {
+            <p class="small muted" style="margin:12px 0 0">
+                Çıktı, orijinal performans ölçeği dosyasından <b>birebir</b> üretilir (formüller ve düzen korunur).
+                @if (Model.TemplateCount > 1)
+                {
+                    <span>Bu düzey iki ayrı dosyadan oluştuğu için Excel çıktısı ZIP olarak iner.</span>
+                }
+            </p>
+        }
     </div>
 
     <div class="card-app mt-3">

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using PerfApp.Data;
@@ -67,5 +68,21 @@ public class IndexModel : PageModel
             var vm = new ComponentVm(component, scored, students.Count, firstUnscored, SelectedClassId, Sort);
             if (component.Kind == "P1") P1.Add(vm); else P2.Add(vm);
         }
+    }
+
+    public async Task<IActionResult> OnPostClearAllScoresAsync(int? classId, string? sort)
+    {
+        var count = await _db.GroupScores.CountAsync();
+        if (count > 0)
+        {
+            _db.GroupScores.RemoveRange(_db.GroupScores);
+            await _db.SaveChangesAsync();
+        }
+
+        TempData["Toast"] = count == 0
+            ? "Silinecek not kaydı bulunamadı."
+            : $"Test için girilen {count} not kaydı silindi.";
+
+        return RedirectToPage(new { classId, sort });
     }
 }

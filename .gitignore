@@ -24,6 +24,10 @@ PerfApp/App_Data/uploads/*
 ~$*.xlsx
 *.tmp
 
+# Şablonlar: kişisel veri temizlenmiştir, uygulamayla birlikte gelir.
+!PerfApp/App_Data/templates/
+!PerfApp/App_Data/templates/*.xlsx
+
 # ---------- İşletim sistemi ----------
 .DS_Store
 Thumbs.db

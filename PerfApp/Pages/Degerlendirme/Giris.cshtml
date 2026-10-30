@@ -17,7 +17,7 @@
 <div class="entry-head">
     <a class="nav-arrow @(Model.PrevId is null ? "disabled" : "")"
        asp-page="/Degerlendirme/Giris"
-       asp-route-classId="@Model.ClassId" asp-route-componentId="@Model.ComponentId" asp-route-studentId="@Model.PrevId" asp-route-sort="@Model.Sort"
+       asp-route-classId="@Model.ClassId" asp-route-componentId="@Model.ComponentId" asp-route-studentId="@Model.PrevId" asp-route-sort="@Model.Sort" asp-route-filter="@Model.Filter"
        aria-label="Önceki öğrenci">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
     </a>
@@ -27,7 +27,7 @@
     </div>
     <a class="nav-arrow @(Model.NextId is null ? "disabled" : "")"
        asp-page="/Degerlendirme/Giris"
-       asp-route-classId="@Model.ClassId" asp-route-componentId="@Model.ComponentId" asp-route-studentId="@Model.NextId" asp-route-sort="@Model.Sort"
+       asp-route-classId="@Model.ClassId" asp-route-componentId="@Model.ComponentId" asp-route-studentId="@Model.NextId" asp-route-sort="@Model.Sort" asp-route-filter="@Model.Filter"
        aria-label="Sonraki öğrenci">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
     </a>
@@ -36,7 +36,7 @@
 <div class="d-flex gap-2 mb-3 student-picker">
     <select class="select-app flex-grow-1" data-student-picker
             data-base="@Url.Page("/Degerlendirme/Giris")"
-            data-class="@Model.ClassId" data-component="@Model.ComponentId" data-sort="@Model.Sort">
+            data-class="@Model.ClassId" data-component="@Model.ComponentId" data-sort="@Model.Sort" data-filter="@Model.Filter">
         @foreach (var student in Model.Students)
         {
             <option value="@student.Id" selected="@(student.Id == Model.StudentId ? "selected" : null)">
@@ -45,18 +45,34 @@
         }
     </select>
     <div class="sort-toggle compact" role="group" aria-label="Öğrenci sıralaması">
-        <a asp-page="/Degerlendirme/Giris" asp-route-classId="@Model.ClassId" asp-route-componentId="@Model.ComponentId" asp-route-studentId="@Model.StudentId" asp-route-sort="no"
+        <a asp-page="/Degerlendirme/Giris" asp-route-classId="@Model.ClassId" asp-route-componentId="@Model.ComponentId" asp-route-studentId="@Model.StudentId" asp-route-sort="no" asp-route-filter="@Model.Filter"
            class="@(Model.Sort == "no" ? "active" : "")" title="Okul numarasına göre">No</a>
-        <a asp-page="/Degerlendirme/Giris" asp-route-classId="@Model.ClassId" asp-route-componentId="@Model.ComponentId" asp-route-studentId="@Model.StudentId" asp-route-sort="ad"
+        <a asp-page="/Degerlendirme/Giris" asp-route-classId="@Model.ClassId" asp-route-componentId="@Model.ComponentId" asp-route-studentId="@Model.StudentId" asp-route-sort="ad" asp-route-filter="@Model.Filter"
            class="@(Model.Sort == "ad" ? "active" : "")" title="Ad soyada göre">A-Z</a>
     </div>
 </div>
+
+<div class="sort-row wrap">
+    <span class="sort-label">Görünüm:</span>
+    <div class="sort-toggle" role="group" aria-label="Öğrenci listesi filtresi">
+        <a asp-page="/Degerlendirme/Giris" asp-route-classId="@Model.ClassId" asp-route-componentId="@Model.ComponentId" asp-route-studentId="@Model.StudentId" asp-route-sort="@Model.Sort" asp-route-filter="all"
+           class="@(Model.Filter == "all" ? "active" : "")">Tüm öğrenciler <span class="muted">(@Model.TotalStudentCount)</span></a>
+        <a asp-page="/Degerlendirme/Giris" asp-route-classId="@Model.ClassId" asp-route-componentId="@Model.ComponentId" asp-route-studentId="@Model.StudentId" asp-route-sort="@Model.Sort" asp-route-filter="eksik"
+           class="@(Model.Filter == "eksik" && !Model.NoMissing ? "active" : "")">Notu girilmemiş <span class="muted">(@Model.MissingCount)</span></a>
+    </div>
+</div>
+
+@if (Model.Filter == "eksik" && Model.NoMissing)
+{
+    <div class="alert-app info mb-3">Bu bileşende tüm öğrencilerin notu girilmiş. Liste tüm öğrencileri gösteriyor.</div>
+}
 
 <form method="post" id="scoreForm" data-submit-once>
     <input type="hidden" name="classId" value="@Model.ClassId" />
     <input type="hidden" name="componentId" value="@Model.ComponentId" />
     <input type="hidden" name="studentId" value="@Model.StudentId" />
     <input type="hidden" name="sort" value="@Model.Sort" />
+    <input type="hidden" name="filter" value="@Model.Filter" />
 
     @for (var i = 0; i < result.Groups.Count; i++)
     {
@@ -134,7 +150,8 @@
                     + '?classId=' + encodeURIComponent(picker.dataset.class)
                     + '&componentId=' + encodeURIComponent(picker.dataset.component)
                     + '&studentId=' + encodeURIComponent(picker.value)
-                    + '&sort=' + encodeURIComponent(picker.dataset.sort);
+                    + '&sort=' + encodeURIComponent(picker.dataset.sort)
+                    + '&filter=' + encodeURIComponent(picker.dataset.filter);
             });
         })();
     </script>

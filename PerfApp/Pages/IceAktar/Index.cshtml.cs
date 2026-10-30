@@ -20,15 +20,15 @@ public class IndexModel : PageModel
         _env = env;
     }
 
+    public sealed record ClassPreview(string ClassName, int Count, bool IsNewClass, bool IsValid);
+
     public List<SchoolClass> Classes { get; private set; } = new();
-    public ParsedRoster? Preview { get; private set; }
+    public List<TemplateStudent>? Preview { get; private set; }
+    public List<ClassPreview> PreviewClasses { get; private set; } = new();
+    public List<string> PreviewWarnings { get; private set; } = new();
     public string? Token { get; private set; }
     public string? PreviewFile { get; private set; }
     public int FolderFileCount { get; private set; }
-
-    [BindProperty] public string? ClassName { get; set; }
-    [BindProperty] public int? Grade { get; set; }
-    [BindProperty] public string Mode { get; set; } = "replace";
 
     private string UploadFolder => Path.Combine(_env.ContentRootPath, "App_Data", "uploads");
 
@@ -45,13 +45,20 @@ public class IndexModel : PageModel
             FolderFileCount = Directory.GetFiles(parent, "*.xlsx").Count(f => !Path.GetFileName(f).StartsWith("~$"));
     }
 
+    /// <summary>Doldurulacak örnek şablonu indirir.</summary>
+    public IActionResult OnGetTemplate()
+    {
+        var bytes = _importer.BuildTemplate();
+        return File(bytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Ogrenci-Sablonu.xlsx");
+    }
+
     public async Task<IActionResult> OnPostPreviewAsync(IFormFile? file)
     {
         await LoadAsync();
 
         if (file is null || file.Length == 0)
         {
-            TempData["Toast"] = "Lütfen bir .xlsx dosyası seçin.";
+            TempData["Toast"] = "Lütfen doldurduğunuz .xlsx dosyasını seçin.";
             return RedirectToPage();
         }
 
@@ -76,19 +83,17 @@ public class IndexModel : PageModel
 
         try
         {
-            Preview = _importer.ParseFile(path);
-            Token = token;
-            PreviewFile = file.FileName;
-            ClassName = Preview.ClassName is not null && !Preview.ClassName.EndsWith("/?") ? Preview.ClassName : null;
-            Grade = Preview.Grade;
-
-            if (Preview.Students.Count == 0)
+            var students = _importer.ParseTemplate(path);
+            if (students.Count == 0)
             {
-                TempData["Toast"] = "Bu dosyada öğrenci listesi bulunamadı.";
                 System.IO.File.Delete(path);
+                TempData["Toast"] = "Dosyada öğrenci bulunamadı. Şablondaki başlık satırını koruduğunuzdan emin olun.";
                 return RedirectToPage();
             }
 
+            await BuildPreviewAsync(students);
+            Token = token;
+            PreviewFile = file.FileName;
             return Page();
         }
         catch (Exception ex)
@@ -99,13 +104,13 @@ public class IndexModel : PageModel
         }
     }
 
-    public async Task<IActionResult> OnPostConfirmAsync(string? token, string? className, int? grade, string? mode)
+    public async Task<IActionResult> OnPostConfirmAsync(string? token)
     {
         await LoadAsync();
 
         if (!Guid.TryParse(token, out _))
         {
-            TempData["Toast"] = "Geçersiz dosya oturumu. Lütfen yeniden yükleyin.";
+            TempData["Toast"] = "Geçersiz dosya oturumu. Lütfen dosyayı yeniden yükleyin.";
             return RedirectToPage();
         }
 
@@ -116,48 +121,34 @@ public class IndexModel : PageModel
             return RedirectToPage();
         }
 
-        var normalized = StudentImportService.NormalizeClassName(className);
-        if (normalized is null)
-        {
-            TempData["Toast"] = "Sınıf adı 9/C biçiminde olmalı.";
-            return await RepreviewAsync(path, token, "Sınıf adı 9/C biçiminde olmalı.");
-        }
-
-        var parsedGrade = int.Parse(normalized.Split('/')[0]);
-        if (grade is not null && grade != parsedGrade)
-        {
-            TempData["Toast"] = "Sınıf adı ile sınıf düzeyi uyuşmuyor.";
-            return await RepreviewAsync(path, token, "Sınıf adı ile sınıf düzeyi uyuşmuyor.");
-        }
-
         try
         {
-            var roster = _importer.ParseFile(path);
-            var summary = await _importer.ImportAsync(_db, roster, normalized, parsedGrade,
-                replace: string.Equals(mode, "replace", StringComparison.OrdinalIgnoreCase));
-
+            var students = _importer.ParseTemplate(path);
+            var summary = await _importer.ImportTemplateAsync(_db, students);
             System.IO.File.Delete(path);
 
-            var cls = await _db.SchoolClasses.FirstAsync(c => c.Name == normalized);
-            TempData["Toast"] = $"{normalized}: {summary.Added} öğrenci eklendi, {summary.Total} öğrenci kayıtlı.";
-            return RedirectToPage("/Ogrenciler/Index", new { classId = cls.Id });
+            if (summary.Classes.Count == 0)
+            {
+                TempData["Toast"] = summary.Errors.Count > 0
+                    ? "Hiçbir öğrenci aktarılamadı: " + summary.Errors[0]
+                    : "Aktarılacak öğrenci bulunamadı.";
+                return RedirectToPage();
+            }
+
+            var newClasses = summary.Classes.Count(c => c.IsNewClass);
+            var message = $"{summary.Added} yeni öğrenci eklendi, {summary.Classes.Count} sınıf işlendi";
+            if (newClasses > 0) message += $" ({newClasses} yeni sınıf oluşturuldu)";
+            if (summary.Errors.Count > 0) message += $" · {summary.Errors.Count} satır atlandı";
+            TempData["Toast"] = message + ".";
+
+            var first = await _db.SchoolClasses.FirstOrDefaultAsync(c => c.Name == summary.Classes[0].ClassName);
+            return RedirectToPage("/Ogrenciler/Index", new { classId = first?.Id });
         }
         catch (Exception ex)
         {
             TempData["Toast"] = "İçe aktarma başarısız: " + ex.Message;
-            return await RepreviewAsync(path, token, "İçe aktarma başarısız: " + ex.Message);
+            return RedirectToPage();
         }
-    }
-
-    private Task<IActionResult> RepreviewAsync(string path, string token, string message)
-    {
-        Preview = _importer.ParseFile(path);
-        Token = token;
-        PreviewFile = Path.GetFileName(path);
-        ClassName = Preview.ClassName;
-        Grade = Preview.Grade;
-        ModelState.Clear();
-        return Task.FromResult<IActionResult>(Page());
     }
 
     public async Task<IActionResult> OnPostFolderAsync()
@@ -174,5 +165,26 @@ public class IndexModel : PageModel
         var added = summary.Files.Sum(f => f.Added);
         TempData["Toast"] = $"{summary.Files.Count} dosya işlendi, {added} yeni öğrenci eklendi.";
         return RedirectToPage("/Ogrenciler/Index");
+    }
+
+    private async Task BuildPreviewAsync(List<TemplateStudent> students)
+    {
+        Preview = students;
+        var known = await _db.SchoolClasses.Select(c => c.Name).ToListAsync();
+        var knownSet = new HashSet<string>(known, StringComparer.OrdinalIgnoreCase);
+
+        foreach (var group in students.GroupBy(s => (s.ClassName ?? "").Trim(), StringComparer.OrdinalIgnoreCase)
+                     .OrderBy(g => g.Key, StringComparer.OrdinalIgnoreCase))
+        {
+            var normalized = StudentImportService.NormalizeClassName(group.Key);
+            if (normalized is null)
+            {
+                var label = string.IsNullOrWhiteSpace(group.Key) ? "(sınıf boş)" : group.Key;
+                PreviewWarnings.Add($"\"{label}\" geçerli bir sınıf adı değil — bu {group.Count()} öğrenci atlanacak.");
+                continue;
+            }
+
+            PreviewClasses.Add(new ClassPreview(normalized, group.Count(), !knownSet.Contains(normalized), true));
+        }
     }
 }

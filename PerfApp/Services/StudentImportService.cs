@@ -19,6 +19,11 @@ public sealed class ParsedRoster
 public sealed record ImportSummary(string ClassName, int Added, int Updated, int Removed, int Total);
 public sealed record FolderImportSummary(List<ImportSummary> Files, List<string> Skipped);
 
+/// <summary>Basit şablon (Öğrenci No · Ad Soyad · Sınıf) satırı.</summary>
+public sealed record TemplateStudent(int? Number, string FullName, string? ClassName);
+public sealed record TemplateClassSummary(string ClassName, int Added, int Updated, int Total, bool IsNewClass);
+public sealed record TemplateImportSummary(List<TemplateClassSummary> Classes, List<string> Errors, int Added);
+
 public partial class StudentImportService
 {
     private static readonly CultureInfo Tr = CultureInfo.GetCultureInfo("tr-TR");
@@ -279,5 +284,153 @@ public partial class StudentImportService
         }
 
         return new FolderImportSummary(summaries, skipped);
+    }
+
+    // ---------- Basit şablon (Öğrenci No · Ad Soyad · Sınıf) ----------
+
+    /// <summary>Şablon dosyasındaki satırları okur. Başlık satırından "No", "Ad Soyad", "Sınıf" sütunları bulunur.</summary>
+    public List<TemplateStudent> ParseTemplate(string path)
+    {
+        var list = new List<TemplateStudent>();
+        using var wb = new XLWorkbook(path);
+        var ws = wb.Worksheets.FirstOrDefault();
+        if (ws is null) return list;
+
+        var lastRow = ws.LastRowUsed()?.RowNumber() ?? 0;
+        if (lastRow == 0) return list;
+
+        var headerRow = 0; var nameCol = 0; var numCol = 0; var classCol = 0;
+        for (var r = 1; r <= Math.Min(10, lastRow); r++)
+        {
+            foreach (var cell in ws.Row(r).CellsUsed())
+            {
+                var t = NormalizeHeader(CellText(cell));
+                if (t.Length == 0) continue;
+                if (t.Contains("ADSOYAD") || t.Contains("ADI") || t == "AD") nameCol = cell.Address.ColumnNumber;
+                if (t.Contains("SINIF") || t.Contains("SUBE")) classCol = cell.Address.ColumnNumber;
+                if (t.Contains("NO") && !t.Contains("SIRA")) numCol = cell.Address.ColumnNumber;
+            }
+            if (nameCol > 0) { headerRow = r; break; }
+        }
+
+        // Başlık bulunamazsa varsayılan düzen: A=No, B=Ad Soyad, C=Sınıf.
+        if (nameCol == 0) { headerRow = 1; numCol = 1; nameCol = 2; classCol = 3; }
+
+        for (var r = headerRow + 1; r <= lastRow; r++)
+        {
+            var name = CellText(ws.Cell(r, nameCol));
+            if (!IsValidName(name)) continue;
+            var number = numCol > 0 ? ParseNumber(ws.Cell(r, numCol)) : null;
+            var cls = classCol > 0 ? CellText(ws.Cell(r, classCol)) : null;
+            list.Add(new TemplateStudent(number, name, string.IsNullOrWhiteSpace(cls) ? null : cls));
+        }
+
+        return list;
+    }
+
+    /// <summary>Şablon satırlarını sınıflara göre içe aktarır; olmayan sınıfları otomatik oluşturur.</summary>
+    public async Task<TemplateImportSummary> ImportTemplateAsync(AppDbContext db, List<TemplateStudent> rows, CancellationToken ct = default)
+    {
+        var classes = new List<TemplateClassSummary>();
+        var errors = new List<string>();
+        var totalAdded = 0;
+
+        var groups = rows.GroupBy(r => (r.ClassName ?? "").Trim(), StringComparer.OrdinalIgnoreCase);
+
+        foreach (var group in groups)
+        {
+            var normalized = NormalizeClassName(group.Key);
+            if (normalized is null)
+            {
+                var label = string.IsNullOrWhiteSpace(group.Key) ? "(sınıf boş)" : group.Key;
+                errors.Add($"Sınıf adı geçersiz, atlandı: \"{label}\" ({group.Count()} öğrenci)");
+                continue;
+            }
+
+            var grade = int.Parse(normalized.Split('/')[0], CultureInfo.InvariantCulture);
+            var cls = await db.SchoolClasses.Include(c => c.Students)
+                .FirstOrDefaultAsync(c => c.Name == normalized, ct);
+            var isNew = cls is null;
+            if (cls is null)
+            {
+                cls = new SchoolClass { Name = normalized, Grade = grade, AcademicYear = "2026-2027" };
+                db.SchoolClasses.Add(cls);
+                await db.SaveChangesAsync(ct);
+            }
+
+            var existing = cls.Students.ToDictionary(s => s.FullName, s => s, StringComparer.OrdinalIgnoreCase);
+            var added = 0; var updated = 0;
+
+            foreach (var row in group)
+            {
+                if (existing.TryGetValue(row.FullName, out var student))
+                {
+                    if (row.Number is not null && student.Number != row.Number)
+                    {
+                        student.Number = row.Number;
+                        updated++;
+                    }
+                    continue;
+                }
+
+                var newStudent = new Student { SchoolClassId = cls.Id, FullName = row.FullName, Number = row.Number };
+                db.Students.Add(newStudent);
+                existing[row.FullName] = newStudent;
+                added++;
+            }
+
+            await db.SaveChangesAsync(ct);
+            var total = await db.Students.CountAsync(s => s.SchoolClassId == cls.Id, ct);
+            classes.Add(new TemplateClassSummary(normalized, added, updated, total, isNew));
+            totalAdded += added;
+        }
+
+        return new TemplateImportSummary(
+            classes.OrderBy(c => c.ClassName, StringComparer.OrdinalIgnoreCase).ToList(),
+            errors, totalAdded);
+    }
+
+    /// <summary>İndirilebilir örnek şablonu (.xlsx) üretir.</summary>
+    public byte[] BuildTemplate()
+    {
+        using var wb = new XLWorkbook();
+        var ws = wb.AddWorksheet("Öğrenciler");
+
+        ws.Cell(1, 1).Value = "Öğrenci No";
+        ws.Cell(1, 2).Value = "Ad Soyad";
+        ws.Cell(1, 3).Value = "Sınıf";
+
+        var head = ws.Range("A1:C1");
+        head.Style.Font.Bold = true;
+        head.Style.Font.FontColor = XLColor.White;
+        head.Style.Fill.BackgroundColor = XLColor.FromHtml("#0F766E");
+        head.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+        head.Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+        ws.Row(1).Height = 22;
+
+        ws.Column(1).Width = 14;
+        ws.Column(2).Width = 36;
+        ws.Column(3).Width = 12;
+        ws.SheetView.FreezeRows(1);
+
+        var info = wb.AddWorksheet("Açıklama");
+        void Line(int row, string text, bool bold = false)
+        {
+            var c = info.Cell(row, 1);
+            c.Value = text;
+            c.Style.Font.Bold = bold;
+            c.Style.Alignment.WrapText = true;
+        }
+        Line(1, "Öğrenci Şablonu — Nasıl doldurulur?", true);
+        Line(2, "1) \"Öğrenciler\" sayfasını açın.");
+        Line(3, "2) A sütunu: Öğrenci No  ·  B sütunu: Ad Soyad  ·  C sütunu: Sınıf");
+        Line(4, "3) Sınıfı 9/C, 10/A gibi yazın. Sınıf sistemde yoksa otomatik oluşturulur.");
+        Line(5, "4) Başlık satırını silmeyin. Boş satırları yok sayabilirsiniz.");
+        Line(6, "5) Dosyayı kaydedip uygulamadan yükleyin.");
+        info.Column(1).Width = 90;
+
+        using var ms = new MemoryStream();
+        wb.SaveAs(ms);
+        return ms.ToArray();
     }
 }

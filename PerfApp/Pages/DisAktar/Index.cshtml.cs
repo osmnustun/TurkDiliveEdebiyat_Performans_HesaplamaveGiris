@@ -4,11 +4,14 @@ using Microsoft.EntityFrameworkCore;
 using PerfApp.Data;
 using PerfApp.Models;
 using PerfApp.Services;
+using System.IO.Compression;
 
 namespace PerfApp.Pages.DisAktar;
 
 public class IndexModel : PageModel
 {
+    private const string XlsxContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
     private readonly AppDbContext _db;
     public IndexModel(AppDbContext db) => _db = db;
 
@@ -18,6 +21,8 @@ public class IndexModel : PageModel
     public string Sort { get; private set; } = StudentOrdering.ByNumber;
     public int TotalStudents { get; private set; }
     public int CompletedStudents { get; private set; }
+    public bool UsingTemplates { get; private set; }
+    public int TemplateCount { get; private set; }
 
     public async Task OnGetAsync(int? classId, string? sort) => await LoadAsync(classId, sort);
 
@@ -30,6 +35,8 @@ public class IndexModel : PageModel
         if (SelectedClass is null) return;
 
         TotalStudents = SelectedClass.Students.Count;
+        TemplateCount = TemplateExportService.AvailableFor(SelectedClass.Grade).Count;
+        UsingTemplates = TemplateCount > 0;
 
         var groupIds = await _db.Groups
             .Where(g => g.Component!.Grade == SelectedClass.Grade && g.Component.Term == 1)
@@ -52,10 +59,70 @@ public class IndexModel : PageModel
         var export = await ExportService.BuildAsync(_db, classId, sort);
         if (export is null) return NotFound();
 
-        var bytes = ExportService.BuildExcel(export);
-        return File(bytes,
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            $"performans-{Slug(export.Class.Name)}.xlsx");
+        var templates = TemplateExportService.AvailableFor(export.Class.Grade);
+
+        // Tek şablon: doğrudan birebir .xlsx
+        if (templates.Count == 1 && TemplateExportService.TryBuildFilled(templates[0], export, out var single))
+            return File(single, XlsxContentType, $"performans-{Slug(export.Class.Name)}.xlsx");
+
+        // Birden çok şablon (örn. 10. sınıf): ZIP
+        if (templates.Count > 1)
+        {
+            using var ms = new MemoryStream();
+            using (var zip = new ZipArchive(ms, ZipArchiveMode.Create, leaveOpen: true))
+            {
+                foreach (var t in templates)
+                {
+                    if (!TemplateExportService.TryBuildFilled(t, export, out var bytes)) continue;
+                    await AddEntryAsync(zip, TemplateExportService.OutputFileName(export.Class.Name, t), bytes);
+                }
+            }
+            return File(ms.ToArray(), "application/zip", $"performans-{Slug(export.Class.Name)}.zip");
+        }
+
+        // Şablon yoksa eski üretilen düzen
+        var fallback = ExportService.BuildExcel(export);
+        return File(fallback, XlsxContentType, $"performans-{Slug(export.Class.Name)}.xlsx");
+    }
+
+    public async Task<IActionResult> OnGetZipAsync(string? sort)
+    {
+        var classes = await _db.SchoolClasses.Include(c => c.Students).OrderBy(c => c.Name).ToListAsync();
+
+        using var ms = new MemoryStream();
+        using (var zip = new ZipArchive(ms, ZipArchiveMode.Create, leaveOpen: true))
+        {
+            foreach (var cls in classes)
+            {
+                var export = await ExportService.BuildAsync(_db, cls.Id, sort);
+                if (export is null) continue;
+
+                var folder = Slug(cls.Name);
+                var templates = TemplateExportService.AvailableFor(cls.Grade);
+
+                if (templates.Count == 0)
+                {
+                    var bytes = ExportService.BuildExcel(export);
+                    await AddEntryAsync(zip, $"{folder}/performans-{folder}.xlsx", bytes);
+                    continue;
+                }
+
+                foreach (var t in templates)
+                {
+                    if (!TemplateExportService.TryBuildFilled(t, export, out var bytes)) continue;
+                    await AddEntryAsync(zip, $"{folder}/{TemplateExportService.OutputFileName(cls.Name, t)}", bytes);
+                }
+            }
+        }
+
+        return File(ms.ToArray(), "application/zip", "performans-tum-siniflar.zip");
+    }
+
+    private static async Task AddEntryAsync(ZipArchive zip, string name, byte[] bytes)
+    {
+        var entry = zip.CreateEntry(name);
+        await using var stream = entry.Open();
+        await stream.WriteAsync(bytes);
     }
 
     public async Task<IActionResult> OnGetPdfAsync(int classId, string? sort)

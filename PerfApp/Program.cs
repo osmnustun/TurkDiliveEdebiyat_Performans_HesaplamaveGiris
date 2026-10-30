@@ -12,6 +12,9 @@ var dataFolder = Path.Combine(builder.Environment.ContentRootPath, "App_Data");
 Directory.CreateDirectory(Path.Combine(dataFolder, "uploads"));
 var dbPath = Path.Combine(dataFolder, "perf.db");
 
+TemplateExportService.TemplatesRoot = Path.Combine(dataFolder, "templates");
+Directory.CreateDirectory(TemplateExportService.TemplatesRoot);
+
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite($"Data Source={dbPath}"));
 builder.Services.AddScoped<StudentImportService>();
 
